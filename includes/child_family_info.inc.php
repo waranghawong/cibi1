@@ -11,6 +11,7 @@ if(isset($_POST['child_profile_id']) == '' &&  $_POST['mother_name'] == '' && $_
     }   
     else{
         $id = $_POST['child_profile_id'];
+        $child_points = $_POST['child_points'];
         $mother_name = $_POST['mother_name'];
         $father_name = $_POST['father_name'];
         $guardian_name = $_POST['guardian_name'];
@@ -24,8 +25,10 @@ if(isset($_POST['child_profile_id']) == '' &&  $_POST['mother_name'] == '' && $_
         $child_lives_with = $_POST['child_lives_with'];
         $guardian_occupation = $_POST['guardian_occupation'];
         
+
+
     
-        $child_profile->childFamilyInfo($mother_name, $father_name, $guardian_name, $is_mother_guardian, $father_guardian, $father_absent, $why_mother_absent, $mother_occupation,$father_occupation, $guardian_relationship, $child_lives_with,$guardian_occupation, $id);
+        $child_profile->childFamilyInfo($mother_name, $father_name, $guardian_name, $is_mother_guardian, $father_guardian, $father_absent, $why_mother_absent, $mother_occupation,$father_occupation, $guardian_relationship, $child_lives_with,$guardian_occupation, $id, $child_points);
 
     }
 

@@ -10,6 +10,7 @@ if(isset($_POST['child_profile_id']) == '' &&  $_POST['address'] == '' && $_POST
         var_dump($_POST);
     }   
     else{
+        $points = '';
         $address = $_POST['address'];
         $income = $_POST['income'];
         $beds = $_POST['beds'];
@@ -23,8 +24,50 @@ if(isset($_POST['child_profile_id']) == '' &&  $_POST['address'] == '' && $_POST
         $water_source = $_POST['water_source'];
         $electricity = $_POST['electricity'];
         $sanitary_facility = $_POST['sanitary_facility'];
-    
-        $child_profile->childProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $_POST['child_profile_id']);
+
+        if($income <= '12000'){
+            $points = '60';
+        }
+        elseif($income == '13000'){
+            $points = '55';
+        }
+        elseif($income == '14000'){
+            $points = '50';
+        }
+        elseif($income == '15000'){
+            $points = '45';
+        }
+        elseif($income == '16000'){
+            $points = '40';
+        }
+        elseif($income == '17000'){
+            $points = '35';
+        }
+        elseif($income == '18000'){
+            $points = '30';
+        }
+        elseif($income == '19000'){
+            $points = '25';
+        }
+        elseif($income == '20000'){
+            $points = '20';
+        }
+        elseif($income == '21000'){
+            $points = '15';
+        }
+        elseif($income == '22000'){
+            $points = '10';
+        }
+        elseif($income == '23000'){
+            $points = '5';
+        }
+        else{
+            $points = '0';
+        }
+        
+
+        $child_profile->childProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $_POST['child_profile_id'], $points);
 
     }
+    
 

@@ -205,7 +205,7 @@ if(isset($user)){
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="../includes/users.inc.php">
+                    <form method="post" action="../includes/child_account.inc.php">
                        <label for="getChildData">Select Child Profile</label>
                         <select class="form-control" name="child_account"  id="getChildData">
                           <option></option>
@@ -256,7 +256,7 @@ if(isset($user)){
                       
                                 
                             <div class="form-group col-md-12">
-                            <button type="submit" name="submit" id="btn_submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" name="account_submit" id="btn_submit" class="btn btn-primary">Submit</button>
                             </div>
                                 
                        

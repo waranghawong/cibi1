@@ -5,18 +5,19 @@
     include_once '../classes/child-profile-cntrl.classes.php';
 
     $child_profile = new childProfileCntrl();
-    
+    $child_count = $_POST['child_count'];
     $child_profile_id = $_POST['child_profile_id'];
     $siblings_first_name = $_POST['siblings_first_name'];
     $siblings_last_name = $_POST['siblings_last_name'];
     $sibling_dob = $_POST['sibling_dob'];
+    $points = intval($_POST['child_points3']);
 
     $count1 =  count($siblings_first_name) - 1;
-  
+    $count = count($siblings_first_name);
 
     // 
 
-    
+    $total_points = '';
     // foreach($unreg_siblings_genders as $gender){
     //     foreach($unreg_sibling_first_name as $first_name){
     //         foreach($unreg_sibling_last_name as $last_name){
@@ -30,8 +31,8 @@
     //         }
     //     }
     // }
-
-
+        
+        $total =  $count + $child_count;
         $array = [];
         for ($i = 0; $i <= $count1; $i++) {
             
@@ -40,12 +41,42 @@
                 $array[] = $genders;
             }
         }
+        
+        if($total == 8){
+            $total_points = 20;
+        }
+        if($total == 7){
+            $total_points = 18;
+        }
+        if($total == 6){
+            $total_points = 16;
+        }
+
+        if($total == 5){
+            $total_points = 14;
+        }
+        if($total == 4){
+            $total_points = 12;
+        }
+        if($total == 3){
+            $total_points = 10;
+        }
+        if($total == 2){
+            $total_points = 8;
+        }
+        if($total == 1){
+            $total_points = 6;
+        }
+
+        
+
+$total = $points + intval($total_points);
 
 
 
     
 
-    $child_profile->registeredSiblings($child_profile_id,$siblings_first_name, $siblings_last_name, $sibling_dob,$array );
+$child_profile->registeredSiblings($child_profile_id,$siblings_first_name, $siblings_last_name, $sibling_dob,$array,$total);
           
        
  

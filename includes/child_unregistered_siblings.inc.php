@@ -13,6 +13,7 @@
     $gender = '';
 
     $count1 =  count($unreg_sibling_first_name) - 1;
+    $count =  count($unreg_sibling_first_name);
   
 
     // 
@@ -46,7 +47,7 @@
 
     
 
-           $child_profile->unregisteredSiblings($child_profile_id,$unreg_sibling_first_name, $unreg_sibling_last_name, $unreg_sibling_dob,$array );
+        $child_profile->unregisteredSiblings($child_profile_id,$unreg_sibling_first_name, $unreg_sibling_last_name, $unreg_sibling_dob,$array, $count);
           
        
  

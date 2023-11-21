@@ -14,7 +14,7 @@
   $random_keys=array_rand($color,count($sched->getEvents()));
   foreach($sched->getEvents() as $key => $rm){
 
-    $calendar->add_event($rm['program_name'], $rm['date'], $rm['no_of_days'], $color[$random_keys[$key]]);
+    $calendar->add_event($rm['program_name'], $rm['date'], $rm['no_of_days'], $color[]);
 
   }
 

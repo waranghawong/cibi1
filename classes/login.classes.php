@@ -28,7 +28,7 @@ class login extends DB{
 
             } 
             elseif($pwd == $pass){
-                $stmt = $con->prepare("SELECT UserID, first_name, last_name, usernamen role  FROM users WHERE username = ? AND password = ?");
+                $stmt = $con->prepare("SELECT UserID, first_name, last_name, username, role  FROM users WHERE username = ? AND password = ?");
                 if(!$stmt->execute(array($username, $pwd))){
                     $stmt = null;
                     header("Location: ../login.php?error=stmt_failed");

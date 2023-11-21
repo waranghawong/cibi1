@@ -386,9 +386,19 @@ if(isset($user)){
                           <div class="col-md-12 mt-3">
                             <label for="validationCustom02" class="form-label">Approx. Monthly Income</label>
                               <select class="form-control" name="income">
-                                  <option value="10">Php 10,000 below</option>
-                                  <option value="11">Php 11,000-20,000</option>
-                                  <option value="21">Php 21,000-30,000</option>
+                                  <option value="12000">Php 12,000 below</option>
+                                  <option value="13000">Php 13,000-12,001</option>
+                                  <option value="14000">Php 14,000-13,001</option>
+                                  <option value="15000">Php 15,000-14,001</option>
+                                  <option value="16000">Php 16,000-15,001</option>
+                                  <option value="17000">Php 17,000-16,001</option>
+                                  <option value="18000">Php 18,000-17,001</option>
+                                  <option value="19000">Php 19,000-18,001</option>
+                                  <option value="20000">Php 20,000-19,001</option>
+                                  <option value="21000">Php 21,000-20,001</option>
+                                  <option value="22000">Php 22,000-21,001</option>
+                                  <option value="23000">Php 23,000-22,001</option>
+                                  <option value="24000">Php 24,000-23,001</option>
                               </select>
                             <div class="valid-feedback">
                               Looks good!
@@ -525,6 +535,7 @@ if(isset($user)){
                   <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
                       <form id="form-3" class="row row-cols-1 ms-5 me-5 needs-validation" novalidate>
                       <input type="hidden" class="child_profile_id" name="child_profile_id" value="">
+                      <input type="hidden" class="child_points" name="child_points" value="">
                         <div class="w-50 ml-0 mr-0 mx-auto text-center">
                             <div class="col-md-12 mt-3">
                                 <label for="validationCustom02" class="form-label">Attends School?</label>
@@ -550,10 +561,10 @@ if(isset($user)){
                                     Why not attend school?
                                 </div>
                               </div>
-
+                              <div class="no_attend">
                               <div class="col-md-12 mt-3">
                                 <label for="validationCustom02" class="form-label">School Name</label>
-                                <input type="text" class="form-control" id="school_name" name="school_name" value="" required>
+                                <input type="text" class="form-control" id="school_name" name="school_name" value="" >
                                 <div class="valid-feedback">
                                   Looks good!
                                 </div>
@@ -562,9 +573,30 @@ if(isset($user)){
                                 </div>
                               </div>
 
-                              <div class="col-md-12 mt-3">
+                               <div class="col-md-12 mt-3">
                                   <label for="validationCustom02" class="form-label">School Type</label>
-                                  <input type="text" class="form-control" id="school_type" name="school_type" value="" required>
+                                  <select id="school_type" name="school_type" class="form-control">
+                                      <option value=""></option>
+                                      <option value="public">Public</option>
+                                      <option value="private">Private</option>
+                                  </select>
+                                  <div class="valid-feedback">
+                                    Looks good!
+                                  </div>
+                                  <div class="invalid-feedback">
+                                    Please provide School Type.
+                                  </div>
+                                </div>
+
+                                <div class="col-md-12 mt-3">
+                                  <label for="validationCustom02" class="form-label">Attainment</label>
+                                  <select id="school_attainment" name="school_attainment" class="form-control">
+                                      <option value=""></option>
+                                      <option value="elementary">Elementary Graduate</option>
+                                      <option value="hs_undergrad">High School Undergraduate</option>
+                                      <option value="hs_grad">High School Graduate</option>
+                                      <option value="college_grad">Colleg Graduate</option>
+                                  </select>
                                   <div class="valid-feedback">
                                     Looks good!
                                   </div>
@@ -575,7 +607,7 @@ if(isset($user)){
 
                               <div class="col-md-12 mt-3">
                                 <label for="validationCustom02" class="form-label">Academic Year</label>
-                                <input type="text" class="form-control" id="academic_year" name="academic_year" value="" required>
+                                <input type="text" class="form-control" id="academic_year" name="academic_year" value="" >
                                 <div class="valid-feedback">
                                   Looks good!
                                 </div>
@@ -586,7 +618,7 @@ if(isset($user)){
 
                               <div class="col-md-12 mt-3">
                                   <label for="validationCustom02" class="form-label">School Transportation</label>
-                                  <input type="text" class="form-control" id="school_transportation" name="school_transportation" value="" required>
+                                  <input type="text" class="form-control" id="school_transportation" name="school_transportation" value="" >
                                   <div class="valid-feedback">
                                     Looks good!
                                   </div>
@@ -597,7 +629,7 @@ if(isset($user)){
 
                               <div class="col-md-12 mt-3">
                                   <label for="validationCustom02" class="form-label">Time Travel to School</label>
-                                  <input type="text" class="form-control" id="time_travel_to_school" name="time_travel_to_school" value="" required>
+                                  <input type="text" class="form-control" id="time_travel_to_school" name="time_travel_to_school" value="" >
                                   <div class="valid-feedback">
                                     Looks good!
                                   </div>
@@ -608,7 +640,7 @@ if(isset($user)){
 
                               <div class="col-md-12 mt-3">
                                 <label for="validationCustom02" class="form-label">Most Recent Grade Level Completed</label>
-                                <input type="text" class="form-control" id="most_recent_grade_level_completed" name="most_recent_grade_level_completed" value="" required>
+                                <input type="text" class="form-control" id="most_recent_grade_level_completed" name="most_recent_grade_level_completed" value="" >
                                 <div class="valid-feedback">
                                   Looks good!
                                 </div>
@@ -619,7 +651,7 @@ if(isset($user)){
 
                               <div class="col-md-12 mt-3">
                                 <label for="validationCustom02" class="form-label">CURRENT GRADE LEVEL</label>
-                                <input type="text" class="form-control" id="current_grade_level" name="current_grade_level" value="" required>
+                                <input type="text" class="form-control" id="current_grade_level" name="current_grade_level" value="" >
                                 <div class="valid-feedback">
                                   Looks good!
                                 </div>
@@ -630,7 +662,7 @@ if(isset($user)){
 
                               <div class="col-md-12 mt-3">
                                 <label for="validationCustom02" class="form-label">Favorite School Subjects</label>
-                                <input type="text" class="form-control" id="favorite_school_subject" name="favorite_school_subject" value="" required>
+                                <input type="text" class="form-control" id="favorite_school_subject" name="favorite_school_subject" value="" >
                                 <div class="valid-feedback">
                                   Looks good!
                                 </div>
@@ -638,14 +670,16 @@ if(isset($user)){
                                   Please provide Favorite School Subjects.
                                 </div>
                               </div>
-                            </div>
+                              </div>
                       </form>  
+                  </div>
                   </div>
 
                   <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
 
                      <form id="form-4" class="row row-cols-1 ms-5 me-5 needs-validation" novalidate>
                      <input type="hidden" class="child_profile_id" name="child_profile_id" value="">
+                     <input type="hidden" class="child_points1" name="child_points" value="">
                           <div class="ml-0 mr-0 mx-auto text-center">
 
                             <div class="col-md-3 mt-3">
@@ -726,7 +760,7 @@ if(isset($user)){
 
                               <div class="col-md-3 mt-3">
                                 <label for="validationCustom02" class="form-label">Why Absent?</label>
-                                <input type="text" class="form-control" id="father_absent" name="father_absent" value="" required>
+                                <input type="text" class="form-control" id="father_absent" name="father_absent" value="">
                                 <div class="valid-feedback">
                                   Looks good!
                                 </div>
@@ -750,7 +784,7 @@ if(isset($user)){
                             <div class="ml-0 mr-0 mx-auto text-center">
                             <div class="col-md-6 mt-3">
                               <label for="validationCustom02" class="form-label">Guardian's Name</label>
-                              <input type="text" class="form-control" id="guardian_name" name="guardian_name" value="" required>
+                              <input type="text" class="form-control" id="guardian_name" name="guardian_name" value="">
                               <div class="valid-feedback">
                                 Looks good!
                               </div>
@@ -761,7 +795,7 @@ if(isset($user)){
 
                             <div class="col-md-3 mt-3">
                               <label for="validationCustom02" class="form-label">Occupation</label>
-                              <input type="text" class="form-control" id="guardian_occupation" name="guardian_occupation" value="" required>
+                              <input type="text" class="form-control" id="guardian_occupation" name="guardian_occupation" value="">
                               <div class="valid-feedback">
                                 Looks good!
                               </div>
@@ -772,7 +806,7 @@ if(isset($user)){
 
                             <div class="col-md-3 mt-3">
                               <label for="validationCustom02" class="form-label">Relationship</label>
-                              <input type="text" class="form-control" id="guardian_relationship" name="guardian_relationship" value="" required>
+                              <input type="text" class="form-control" id="guardian_relationship" name="guardian_relationship" value="">
                               <div class="valid-feedback">
                                 Looks good!
                               </div>
@@ -797,6 +831,7 @@ if(isset($user)){
                    <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
                        <form id="form-5" class="row row-cols-1 ms-5 me-5 needs-validation" novalidate>
                        <input type="hidden" class="child_profile_id" name="child_profile_id" value="">
+                       <input type="hidden" class="child_points2" name="child_points2" value="">
                          <div class="col" id="extended">
                             <div class="text-center">
                                <div class="col-md-3 mt-3">
@@ -866,6 +901,8 @@ if(isset($user)){
                    <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
                     <form id="form-6" class="row row-cols-1 ms-5 me-5 needs-validation" novalidate>
                      <input type="hidden" class="child_profile_id" name="child_profile_id" value="">
+                     <input type="hidden" class="child_count" name="child_count" value="">
+                     <input type="hidden" class="child_points3" name="child_points3" value="">
                          <div class="col" id="extended1">
                             <div class="text-center">
                                <div class="col-md-3 mt-3">
@@ -953,6 +990,7 @@ if(isset($user)){
           <div class="modal-body">
             Well done!
           </div>
+          Your total point is: <b class= "total_points"></b>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" onclick="closeModal()">Ok, close and reset</button>
           </div>
@@ -1051,21 +1089,21 @@ if(isset($user)){
            html += '<div class="text-center">';
               html += '<div class="col-md-3 mt-3">';
                 html += '<label for="validationCustom02" class="form-label">First Name</label>';
-                html += '<input type="text" class="form-control" name="mother_name" value="" required>';
+                html += '<input type="text" class="form-control" name="siblings_first_name[]" value="" required>';
                 html += '<div class="valid-feedback">'+ ' Looks good!' + '</div>';
                 html += ' <div class="invalid-feedback">Please provide Father Name</div>';
               html += '</div>';
 
               html += '<div class="col-md-3 mt-3">';
                 html += '<label for="validationCustom02" class="form-label">Last Name</label>';
-                html += '<input type="text" class="form-control" name="mother_name" value="" required>';
+                html += '<input type="text" class="form-control" name="siblings_last_name[]" value="" required>';
                 html += '<div class="valid-feedback">'+ ' Looks good!' + '</div>';
                 html += ' <div class="invalid-feedback">Please provide Father Name</div>';
               html += '</div>';
 
               html += '<div class="col-md-3 mt-3">';
                 html += '<label for="validationCustom02" class="form-label">Date of Birth</label>';
-                html += '<input type="date" class="form-control" name="sibling_dob" value="" required>';
+                html += '<input type="date" class="form-control" name="sibling_dob[]" value="" required>';
                 html += '<div class="valid-feedback">'+ ' Looks good!' + '</div>';
                 html += '<div class="invalid-feedback">Please provide Father Name</div>';
               html += '</div>';
@@ -1105,10 +1143,12 @@ if(isset($user)){
       function show1(){
         $('#why_not').show();
         $('#why_not_attend_school').prop('required', true);
+        $('.no_attend').hide();
       }
       function hide1(){
         $('#why_not').hide();
         $('#why_not_attend_school').prop('required', false);
+        $('.no_attend').show();
       }
 
       
@@ -1152,7 +1192,9 @@ if(isset($user)){
                     //     console.log(data.id)
                 
                     // });
+                    console.log(response);
                        $('.child_profile_id').val(response.id)
+                       $('.total_points').html(response.points);
                        myModal.show();
                     }
                 });
@@ -1295,6 +1337,9 @@ if(isset($user)){
                     //     console.log(data.id)
                 
                     // })
+                    console.log(response);
+                    $('.child_points').val(response.points);
+
                 
                     }
                 });
@@ -1312,7 +1357,9 @@ if(isset($user)){
                     //     console.log(data.id)
                 
                     // })
-                
+                    console.log(response);
+                    $('.child_points1').val(response.points);
+                    $('.child_points3').val(response.points);
                     }
                 });
                 }
@@ -1329,7 +1376,7 @@ if(isset($user)){
                     //     console.log(data.id)
                 
                     // })
-                
+                        $('.child_points2').val(response.points);
                     }
                 });
                 }
@@ -1347,6 +1394,7 @@ if(isset($user)){
                 
                     // });
                        $('.child_profile_id').val(response.id)
+                       $('.child_count').val(response.count)
                     }
                 });
                 }

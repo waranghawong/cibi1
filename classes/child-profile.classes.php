@@ -52,7 +52,7 @@ class childProfile extends DB{
 
 
     //child profile house hold
-    protected function setchildProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id){
+    protected function setchildProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id, $points){
         $datetimetoday = date("Y-m-d H:i:s");
 
         $connection = $this->dbOpen();
@@ -65,14 +65,14 @@ class childProfile extends DB{
             exit();
         }
 
-        echo json_encode(array("id" => $id));
+        echo json_encode(array("id" => $id, "points" => $points));
     }
 
-     protected function updatechildProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id){
+     protected function updatechildProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id, $points){
         $connection = $this->dbOpen();
         $stmt = $connection->prepare("UPDATE child_house_hold_information SET address = ?, income = ?,beds = ?, no_of_persons = ?, walls = ?, roof =?, floor = ?, house_condition = ?, ownership_status = ?, cooking_facility =?, water_source = ?, electricity = ?, sanitary_facility = ? WHERE child_id = ?");
         $stmt->execute([$address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id]);
-        
+        echo json_encode(array("id" => $id, "points" => $points));
     }
 
     protected function houseHoldExist($id){
@@ -110,7 +110,7 @@ class childProfile extends DB{
         return $result;
     }
 
-    protected function setchildProfileSchool($why_not_attend_school, $school_name, $school_type, $academic_year, $school_transportation, $time_travel_to_school, $most_recent_grade_level_completed, $current_grade_level,$favorite_school_subject, $id){
+    protected function setchildProfileSchool($why_not_attend_school, $school_name, $school_type, $academic_year, $school_transportation, $time_travel_to_school, $most_recent_grade_level_completed, $current_grade_level,$favorite_school_subject, $id, $points){
         $datetimetoday = date("Y-m-d H:i:s");
 
         $connection = $this->dbOpen();
@@ -123,10 +123,10 @@ class childProfile extends DB{
             exit();
         }
 
-        echo json_encode(array("id" => $id));
+        echo json_encode(array("id" => $id, "points" => $points));
     }
 
-     protected function updatechildProfileSchool($why_not_attend_school, $school_name, $school_type, $academic_year, $school_transportation, $time_travel_to_school, $most_recent_grade_level_completed, $current_grade_level,$favorite_school_subject, $id){
+     protected function updatechildProfileSchool($why_not_attend_school, $school_name, $school_type, $academic_year, $school_transportation, $time_travel_to_school, $most_recent_grade_level_completed, $current_grade_level,$favorite_school_subject, $id, $points){
         $connection = $this->dbOpen();
         $stmt = $connection->prepare("UPDATE child_school_info SET  attends_school = ?, school_name =?, school_type = ?, academic_year = ?, school_transportation = ?, time_school_travel =?, recent_grade_level = ?, current_grade_level = ?, favorite_school_subject = ? WHERE child_id = ?");
         $stmt->execute([$why_not_attend_school, $school_name, $school_type, $academic_year, $school_transportation, $time_travel_to_school, $most_recent_grade_level_completed, $current_grade_level,$favorite_school_subject, $id]);
@@ -152,7 +152,7 @@ class childProfile extends DB{
         return $result;
     }
 
-    protected function setchildFamilyInfo($mother_name, $father_name, $guardian_name, $is_mother_guardian, $father_guardian, $father_absent, $why_mother_absent, $mother_occupation,$father_occupation, $guardian_relationship, $child_lives_with,$guardian_occupation, $id){
+    protected function setchildFamilyInfo($mother_name, $father_name, $guardian_name, $is_mother_guardian, $father_guardian, $father_absent, $why_mother_absent, $mother_occupation,$father_occupation, $guardian_relationship, $child_lives_with,$guardian_occupation, $id, $child_points){
         $datetimetoday = date("Y-m-d H:i:s");
 
         $connection = $this->dbOpen();
@@ -165,7 +165,7 @@ class childProfile extends DB{
             exit();
         }
 
-        echo json_encode(array("id" => $id));
+        echo json_encode(array("id" => $id, "points" => $child_points));
     }
 
      protected function updatechildFamilyInfo($mother_name, $father_name, $guardian_name, $is_mother_guardian, $father_guardian, $father_absent, $why_mother_absent, $mother_occupation,$father_occupation, $guardian_relationship, $child_lives_with,$guardian_occupation, $id){
@@ -194,7 +194,7 @@ class childProfile extends DB{
         return $result;
     }
 
-    protected function setUnregisteredSiblings($child_profile_id,$unreg_sibling_first_name, $unreg_sibling_last_name, $unreg_sibling_dob,$unreg_siblings_genders){
+    protected function setUnregisteredSiblings($child_profile_id,$unreg_sibling_first_name, $unreg_sibling_last_name, $unreg_sibling_dob,$unreg_siblings_genders, $count){
 
         
         $datetimetoday = date("Y-m-d H:i:s");
@@ -212,10 +212,10 @@ class childProfile extends DB{
             }
         }
 
-        echo json_encode(array("id" => $child_profile_id));
+        echo json_encode(array("id" => $child_profile_id, 'count' =>$count));
     }
 
-     protected function updateUnregisteredSiblings($child_profile_id,$unreg_sibling_first_name, $unreg_sibling_last_name, $unreg_sibling_dob,$unreg_siblings_genders){
+     protected function updateUnregisteredSiblings($child_profile_id,$unreg_sibling_first_name, $unreg_sibling_last_name, $unreg_sibling_dob,$unreg_siblings_genders, $count){
         $datetimetoday = date("Y-m-d H:i:s");
         $connection = $this->dbOpen();
         $del = $connection->prepare("DELETE FROM unregistered_siblings WHERE child_id = ?" );
@@ -231,6 +231,7 @@ class childProfile extends DB{
                 exit();
             }
         }
+        echo json_encode(array("id" => $child_profile_id, 'count' =>$count));
 
      }
 
@@ -254,7 +255,7 @@ class childProfile extends DB{
             return $result;
         }
     
-        protected function setregisteredSiblings($child_profile_id,$siblings_first_name, $siblings_last_name, $sibling_dob,$array){
+        protected function setregisteredSiblings($child_profile_id,$siblings_first_name, $siblings_last_name, $sibling_dob,$array,$count){
     
             
             $datetimetoday = date("Y-m-d H:i:s");
@@ -272,10 +273,10 @@ class childProfile extends DB{
                 }
             }
     
-            echo json_encode(array("id" => $child_profile_id));
+            echo json_encode(array("id" => $child_profile_id, "points"=>$count));
         }
     
-         protected function updateregisteredSiblings($child_profile_id,$siblings_first_name, $siblings_last_name, $sibling_dob,$array){
+         protected function updateregisteredSiblings($child_profile_id,$siblings_first_name, $siblings_last_name, $sibling_dob,$array,$count){
             $datetimetoday = date("Y-m-d H:i:s");
             $connection = $this->dbOpen();
             $del = $connection->prepare("DELETE FROM registered_siblings WHERE child_id = ?" );
@@ -291,7 +292,7 @@ class childProfile extends DB{
                     exit();
                 }
             }
-    
+            echo json_encode(array("id" => $child_profile_id, "points"=>$count));
          }
 
          protected function showAllChildProfile(){

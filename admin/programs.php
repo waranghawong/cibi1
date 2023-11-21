@@ -245,7 +245,7 @@ if(isset($user)){
                     </div>
                     <div class="modal-body">
                         <form method="post" action="../includes/programs.inc.php">
-                          <input type="text" id="edit_program_id" name="edit_program_id" value="">
+                          <input type="hidden" id="edit_program_id" name="edit_program_id" value="">
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label for="inputAddress2">Program Name</label>
