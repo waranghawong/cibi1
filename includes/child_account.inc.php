@@ -9,6 +9,8 @@
     $child_account = new childAccountCntrl();
 
 
+    $child_account->setChildAccount();
+
     if(isset($_GET['child_id'])){
         $child_account->getChildData($_GET['child_id']);
     }

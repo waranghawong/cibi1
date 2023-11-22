@@ -217,14 +217,15 @@ if(isset($user)){
                           ?>
 											
 												</select>
+                        <input type="hidden" value="" name="child_id" id="insert_child_id">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="Name">First Name</label>
-                                <input type="text" class="form-control" name="first_name" id="first_name" disabled>
+                                <input type="text" class="form-control" name="first_name" id="first_name" readonly>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="user_email">Last Name</label>
-                                <input type="text" class="form-control" name="last_name" id="last_name" disabled>
+                                <input type="text" class="form-control" name="last_name" id="last_name" readonly>
                             </div>
                         </div>
                         <div class="form-group">
@@ -246,7 +247,7 @@ if(isset($user)){
                         </div>
                         <div class="form-group">
                             <label for="inputAddress2">Address</label>
-                            <input type="text" class="form-control" name="address" id="child_address" disabled>
+                            <input type="text" class="form-control" name="address" id="child_address" readonly>
                         </div>
                         <div class="form-group">
                             <label for="inputAddress2">Phone Number</label>
@@ -408,6 +409,7 @@ if(isset($user)){
                     success: function (response){
                       var data = $.parseJSON(response)
                       console.log(data);
+                      $('#insert_child_id').val(data[0].id)
                       $('#first_name').val(data[0].first_name)
                       $('#last_name').val(data[0].last_name)
                       $('#child_address').val(data[0].address)

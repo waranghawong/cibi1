@@ -30,6 +30,36 @@ class childAccount extends DB{
             return false;
         }
     }
+
+    protected function checkUsername($username){
+        $resultCheck;
+        $connection = $this->dbOpen();
+        $stmt = $connection->prepare("SELECT username FROM child_account WHERE username = ?");
+        $stmt->execute([$username]);
+
+        if($stmt->rowCount() > 0 ){
+            $resultCheck = true;
+        }
+        else{
+            $resultCheck = false;
+        }
+        return $resultCheck;
+     
+    }
+
+    protected function addChildAccount($fname, $lname, $username,$email,  $address, $password, $phone, $child_id){
+        $datetimetoday = date("Y-m-d H:i:s");
+        $password = md5($password);
+        $connection = $this->dbOpen();
+        $stmt = $connection->prepare('INSERT INTO child_account (child_id, first_name, last_name,username, email, address, password,phoneNumber, role ,created_at) VALUES (?,?,?,?,?,?,?,?,?,?)');
+
+        if(!$stmt->execute([$child_id,$fname, $lname, $username,$email,  $address, $password, $phone,'child-account', $datetimetoday])){
+            $stmt = null;
+            header("location: ../admin/child-accounts.php?errors=stmtfailed");
+            exit();
+        }
+            header("location: ../admin/child-accounts.php");
+    }
 }
 
 
