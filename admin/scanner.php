@@ -1,19 +1,3 @@
-<?php
-  include "../classes/userContr.classes.php";
-  include "../includes/users.inc.php";
-
-  $userdata = new UserCntr();
-  $user = $userdata->get_userdata();
-
-if(isset($user)){
-      
-  $name = ucfirst(ucfirst($user['full_name']));
-  $username = $user['username'];
-  $role = $user['role'];
-  if(isset($role) == 'child-account'){
-
-
-?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -77,7 +61,7 @@ if(isset($user)){
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2><?= $name; ?></h2>
+                <h2>John Doe</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -88,7 +72,7 @@ if(isset($user)){
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu menu_fixed">
               <div class="menu_section">
                 <h3>General</h3>
-                <?php include_once("../includes/side_menu_child.php") ?>
+                <?php include_once("../includes/side_menu.php") ?>
               </div>
             
 
@@ -108,7 +92,7 @@ if(isset($user)){
               <ul class=" navbar-right">
                 <li class="nav-item dropdown open" style="padding-left: 15px;">
                   <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt=""><?= $name; ?>
+                    <img src="images/img.jpg" alt="">John Doe
                   </a>
                   <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item"  href="javascript:;"> Profile</a>
@@ -130,81 +114,11 @@ if(isset($user)){
 
         <!-- page content -->
         <div class="right_col" role="main">
-
-        <div class="row">
-            <div class="col-md-12 col-sm-12 ">
-              <div class="x_panel">
-                <div class="x_title">
-                  <h2>Recent Activities <small>Sessions</small></h2>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <div class="dashboard-widget-content">
-
-                    <ul class="list-unstyled timeline widget">
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
+                    <div class="row">
+                    <div id="reader" width="60px"></div>
+                    </div>
+                 
             
-             
             </div>
           </div>
         </div>
@@ -236,18 +150,24 @@ if(isset($user)){
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
-   
-	
+    <script src="../vendors/html5/html5-qrcode.min.js"></script>
+	<script>
+       function onScanSuccess(decodedText, decodedResult) {
+        // handle the scanned code as you like, for example:
+        console.log(`Code matched = ${decodedText}`, decodedResult);
+        }
+
+        let config = {
+        fps: 10,
+        qrbox: {width: 500, height: 500},
+        rememberLastUsedCamera: true,
+        // Only support camera scan type.
+        supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
+        };
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader", config, /* verbose= */ false);
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
   </body>
 </html>
-<?php
- }
- else{
-    header('location: ../login.php');
- }
-}
-else{
-  header('location: ../login.php');
-}
-
-?>

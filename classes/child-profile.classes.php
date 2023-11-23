@@ -47,19 +47,19 @@ class childProfile extends DB{
         $connection = $this->dbOpen();
         $stmt = $connection->prepare("UPDATE child_info SET first_name = ?, last_name = ?,middle_name = ?, gender = ?, ad_consent = ?, dob =?, height = ?, weight = ?, eye_color = ?, hair_color =?, pastimes = ?, talent_hobbies = ?, chores = ?, child_sleeps_on =?, language_spoken = ? WHERE id = ?");
         $stmt->execute([$first_name, $last_name, $middle_name, $gender, $ad_consent,$dob, $height, $weight, $eye_color, $hair_color, $pastimes, $talent_hobbies, $chores, $child_sleeps_on, $health_problems, $id]);
-        
+        header('location: ../admin/edit_child_profile.php?id='.$id.'');
     }
 
 
     //child profile house hold
-    protected function setchildProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id, $points){
+    protected function setchildProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id,$family_involvement, $points){
         $datetimetoday = date("Y-m-d H:i:s");
 
         $connection = $this->dbOpen();
 
-        $stmt = $connection->prepare("INSERT INTO child_house_hold_information (child_id, address, income, beds, no_of_persons, walls,roof, floor, house_condition, ownership_status, cooking_facility, water_source, electricity, sanitary_facility, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+        $stmt = $connection->prepare("INSERT INTO child_house_hold_information (child_id, address, income, beds, no_of_persons, walls,roof, floor, house_condition, ownership_status, cooking_facility, water_source, electricity, sanitary_facility,family_involvement, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
        
-        if(!$stmt->execute([$id, $address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $datetimetoday])){
+        if(!$stmt->execute([$id, $address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility,$family_involvement, $datetimetoday])){
             $stmt = null;
             header("location: index.php?errors=stmtfailed");
             exit();
@@ -68,10 +68,10 @@ class childProfile extends DB{
         echo json_encode(array("id" => $id, "points" => $points));
     }
 
-     protected function updatechildProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id, $points){
+     protected function updatechildProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id,$family_involvement, $points){
         $connection = $this->dbOpen();
-        $stmt = $connection->prepare("UPDATE child_house_hold_information SET address = ?, income = ?,beds = ?, no_of_persons = ?, walls = ?, roof =?, floor = ?, house_condition = ?, ownership_status = ?, cooking_facility =?, water_source = ?, electricity = ?, sanitary_facility = ? WHERE child_id = ?");
-        $stmt->execute([$address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id]);
+        $stmt = $connection->prepare("UPDATE child_house_hold_information SET address = ?, income = ?,beds = ?, no_of_persons = ?, walls = ?, roof =?, floor = ?, house_condition = ?, ownership_status = ?, cooking_facility =?, water_source = ?, electricity = ?, sanitary_facility = ? , family_involvement = ? WHERE child_id = ?");
+        $stmt->execute([$address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility,$family_involvement, $id]);
         echo json_encode(array("id" => $id, "points" => $points));
     }
 
@@ -301,6 +301,38 @@ class childProfile extends DB{
            
             $stmt->execute();
             $data = $stmt->fetchall();
+            $total = $stmt->rowCount();
+    
+            if($total > 0){
+                return $data;
+            }
+            else{
+                return false;
+            }
+         }
+
+         protected function childData($id){
+            $connection = $this->dbOpen();
+            $stmt = $connection->prepare("SELECT *  FROM child_info WHERE id = ?");
+           
+            $stmt->execute([$id]);
+            $data = $stmt->fetch();
+            $total = $stmt->rowCount();
+    
+            if($total > 0){
+                return $data;
+            }
+            else{
+                return false;
+            }
+         }
+
+         protected function household($id){
+            $connection = $this->dbOpen();
+            $stmt = $connection->prepare("SELECT *  FROM child_house_hold_information WHERE child_id = ?");
+           
+            $stmt->execute([$id]);
+            $data = $stmt->fetch();
             $total = $stmt->rowCount();
     
             if($total > 0){

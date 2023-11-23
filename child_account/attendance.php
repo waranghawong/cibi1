@@ -131,80 +131,29 @@ if(isset($user)){
         <!-- page content -->
         <div class="right_col" role="main">
 
-        <div class="row">
-            <div class="col-md-12 col-sm-12 ">
-              <div class="x_panel">
-                <div class="x_title">
-                  <h2>Recent Activities <small>Sessions</small></h2>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <div class="dashboard-widget-content">
+            <div class="row">
 
-                    <ul class="list-unstyled timeline widget">
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
+            <section class="content">
+            <div class="error-page">
+                <div class="error-content">
+                    <p>
+                    <input type="radio" id="timein" value="timein" name="radio" checked>
+                    <label for="timein">TIME IN</label>
+                    </p>
+                    <p>
+                    <input type="radio"value="timeout" id="timeout" name="radio">
+                    <label for="timeout">TIME OUT</label>
+                    </p>
+                    <div class="col-md-12">
+                        <input type="hidden" id="userID" value="<?= $user["user_id"]; ?>">
+                        <div id="qrcode"></div>
+                    </div>
+                    </div>
                 </div>
-              </div>
             </div>
-            
-             
+            </section>
+
+           
             </div>
           </div>
         </div>
@@ -236,7 +185,27 @@ if(isset($user)){
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
-   
+    <script src="../phpqrcode/qrcode.js"></script>
+    <script type="text/javascript">
+         var userID = document.getElementById('userID').value;
+         let date = new Date().toLocaleDateString();
+         var unix = Math.floor(new Date(date).getTime() / 1000)
+         $('input[type=radio][name=radio]').change(function() {
+            if (this.value == 'timein') {
+            
+              document.getElementById("qrcode").innerHTML = "";
+              var qr = new QRCode(document.getElementById("qrcode"), 'in'+userID+'/'+unix);
+           
+              $("#qrcode").append(qr);
+            }
+            else if (this.value == 'timeout') {
+              document.getElementById("qrcode").innerHTML = "";
+              var qr = new QRCode(document.getElementById("qrcode"), 'ou'+userID+'/'+unix);
+              
+             $("#qrcode").append(qr);
+            }
+        });
+    </script>
 	
   </body>
 </html>

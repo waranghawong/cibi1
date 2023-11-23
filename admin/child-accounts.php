@@ -151,15 +151,26 @@ if(isset($user)){
                                 <th>Email</th>
                                 <th>Phone Number</th>
                                 <th>Address</th>
-                                <th>User Management</th>
-                                <th>Child Profile</th>
-                                <th>Scheduler</th>
-                                <th>Reports</th>
-                                <th>Utilities</th>
                                 <th>Action</th>
                               </tr>
                             </thead>
+                                  <?php
+                                    if($child_account->getListofChildAccounts() == false){
 
+                                    }
+                                    else{
+                                    foreach($child_account->getListofChildAccounts() as $users){ ?>
+                                        <tr id="records_<?= $users['UserID'];?>">
+                                        <td> <?= $users['first_name'].' '.$users['last_name']; ?></td>
+                                        <td> <?= $users['username']; ?></td>
+                                        <td> <?= $users['email']; ?></td>
+                                        <td> <?= $users['phoneNumber']; ?></td>
+                                        <td> <?= $users['address']; ?></td> 
+                                        <td><button type="button" data-toggle="tooltip" data-placement="top" title="edit" onclick="editSubAdmin(<?= $users['UserID'];?>)" class="btn btn-sm btn-success"><i class="fa fa-pencil"></i></button> <button type="button" onclick="deleteUser(<?= $users['UserID'];?>,<?= $users['child_id'];?>)" class="btn-sm btn-danger dlt_record" data-toggle="tooltip" data-placement="top" title="delete subject"><i class="fa fa-trash"></button></td>
+                                    <?php  
+                                    }
+                                    }
+                                  ?>
 
                             <tbody>
                             
@@ -279,8 +290,8 @@ if(isset($user)){
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="../includes/users.inc.php">
-                      <input type="text" id="edit_sub_id" name="edit_sub_id">
+                    <form method="post" action="../includes/child_account.inc.php">
+                      <input type="hidden" id="edit_sub_id" name="edit_sub_id">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="Name">First Name</label>
@@ -317,40 +328,6 @@ if(isset($user)){
                             <input type="text" class="form-control" name="edit_phone" id="edit_phone">
                         </div>
 
-                        <label for="user_email">Restriction</label>
-
-                            <div class="form-group  col-md-12 ml-3">
-                               
-                                <input type="checkbox" class="custom-control-input" id="edit_user_management" value="user_management" name="edit_subadmin_sttngs[]">
-                                <label class="custom-control-label" for="edit_user_management">User Management</label>
-                            </div>
-
-                           <div class="form-group col-md-6 ml-3">
-                              
-                                <input type="checkbox" class="custom-control-input" id="edit_child_profile" value="child_profile" name="edit_subadmin_sttngs[]">
-                                <label class="custom-control-label" for="edit_child_profile">Child Profile</label>
-                            </div>
-
-                            <div class="form-group col-md-12 ml-3">
-                              
-                                <input type="checkbox" class="custom-control-input" id="edit_scheduler" value="scheduler" name="edit_subadmin_sttngs[]">
-                                <label class="custom-control-label" for="edit_scheduler">Scheduler</label>
-                            </div>
-
-
-                            <div class="form-group col-md-6 ml-3">
-                               
-                                <input type="checkbox" class="custom-control-input" id="edit_reports" value="reports" name="edit_subadmin_sttngs[]">
-                                <label class="custom-control-label" for="edit_reports">Reports</label>
-                          
-                            </div>
-
-
-                            <div class="form-group   col-md-12 ml-3">
-                                <input type="checkbox" class="custom-control-input" id="edit_edit_utilities" value="utilities" name="edit_subadmin_sttngs[]">
-                                <label class="custom-control-label" for="edit_edit_utilities">Utilities</label>
-                            </div>
-                                
                             <div class="form-group col-md-12">
                             <button type="submit" name="btn_edit_submit" id="edit_btn_submit" class="btn btn-primary">Submit</button>
                             </div>
@@ -444,15 +421,16 @@ if(isset($user)){
     });
     </script>
     <script>
-        function deleteUser(id){
+        function deleteUser(id, child_id){
             var confirmation = confirm("are you sure you want to remove the item?");
 
             if(confirmation){
                 $.ajax({
                     method: "get",
-                    url: "../includes/users.inc.php?delete_user=" + id,
+                    url: "../includes/child_account.inc.php?delete_child=" + id+'&&child_id=' +child_id,
                     success: function (response){
                     $("#records_"+id).remove();
+                    location.reload();
                     }
                 })
             }
@@ -462,7 +440,7 @@ if(isset($user)){
             $.ajax({
                 method: "get",
                 dataType: "json",
-                url: "../includes/users.inc.php?userid=" + id,
+                url: "../includes/child_account.inc.php?childid=" + id,
                 success: function (response){
                 $.each(response, function(index, data) {
                         $('#edit_sub_id').val(id)
@@ -472,21 +450,6 @@ if(isset($user)){
                         $('#edit_user_address').val(data.address)
                         $('#edit_user_email').val(data.email)
                         $('#edit_phone').val(data.phoneNumber)
-                        if(data.user_management =='1' ){
-                            $( "#edit_user_management" ).prop( "checked", true );
-                        }
-                        if(data.child_profile == '1'){
-                            $( "#edit_child_profile" ).prop( "checked", true );
-                        }
-                        if(data.scheduler == '1'){
-                            $( "#edit_scheduler" ).prop( "checked", true );
-                        }
-                        if(data.reports == '1'){
-                            $( "#edit_reports" ).prop( "checked", true );
-                        }
-                        if(data.utilities == '1'){
-                            $( "#edit_edit_utilities" ).prop( "checked", true );
-                        }
                         
                        
                     });

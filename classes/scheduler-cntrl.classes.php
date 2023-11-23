@@ -5,17 +5,17 @@ class schedulerController extends scheduler{
 
     public function setSchedule(){
         if(isset($_POST['btn_submit_account_method'])){
-            $schedule_name = $_POST['schedule_name'];
-            $schedule_category = $_POST['schedule_type'];
-            $date = $_POST['schedule_date'];
-            $time = $_POST['schedule_time'];
+            $schedule_name = $_POST['program_value'];
+            $date_from = $_POST['schedule_date_from'];
+            $date_to = $_POST['schedule_date_to'];
+            $schedule_limit = $_POST['schedule_limit'];
 
-            $this->Schedule($schedule_name,$schedule_category, $date, $time);
+            $this->Schedule($schedule_name, $date_from, $date_to, $schedule_limit);
         }
     }
 
-    public function updateSchedule($schedule_name,$schedule_category, $date, $time, $id){
-        $this->editSchedule($schedule_name,$schedule_category, $date, $time,$id);
+    public function updateSchedule($schedule_name,$date_from, $date_Tto, $schedule_limit,$id){
+        $this->editSchedule($schedule_name,$date_from, $date_Tto, $schedule_limit,$id);
     }
 
     public function deleteSchedule($id){
@@ -34,6 +34,12 @@ class schedulerController extends scheduler{
     public function getEvents(){
         return $this->getEventsOnDay();
     }
+
+    public function getPrograms(){
+        return $this->programs();
+    }
+
+
 
 } 
 

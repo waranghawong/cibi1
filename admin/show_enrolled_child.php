@@ -5,6 +5,13 @@
   $user = $userdata->get_userdata();
 
 if(isset($user)){
+
+    if(isset($_GET['id'])){
+       $active_programs = $programs->showActiveChildProgram($_GET['id']);
+       $program_name = $programs->getCurrentProgram($_GET['id']);
+
+
+    }
       
   $name = ucfirst(ucfirst($user['full_name']));
   $username = $user['username'];
@@ -131,10 +138,9 @@ if(isset($user)){
           <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
               <div class="x_title">
-                <h2>CIBI Programs</h2>
+                <h2><?= $program_name['program_name']; ?></h2>
                 <div class="clearfix"></div>
               </div>
-              <button type="button" data-toggle="modal" data-target=".addProgram" class="btn btn-sm btn-primary">Add Program</button>
               <div class="x_content">
                 <div class="row">
                   <div class="col-sm-12">
@@ -143,9 +149,7 @@ if(isset($user)){
                       <table id="datatable-keytable" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                           <tr>
-                            <th>Program Name</th>
-                            <th>Program Description</th>
-                            <th>Tags</th>
+                            <th>Full Name</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -153,16 +157,15 @@ if(isset($user)){
 
                         <tbody>
                                   <?php
-                                    if($programs->getProgram() == false){
+                                    if($active_programs == false){
 
                                     }
                                     else{
-                                    foreach($programs->getProgram() as $program_list){ ?>
-                                        <tr id="records_<?= $program_list['id'];?>">
-                                        <td><?= $program_list['program_name']; ?></td>
-                                        <td> <?= $program_list['program_description']; ?></td>
-                                        <td> <?= $program_list['tags']; ?></td>
-                                        <td><button type="button" data-toggle="tooltip" data-placement="top" title="edit" onclick="editProgram(<?= $program_list['id'];?>)" class="btn btn-sm btn-success"><i class="fa fa-pencil"></i></button> <button type="button" onclick="deleteProgram(<?= $program_list['id'];?>)" class="btn-sm btn-danger dlt_record" data-toggle="tooltip" data-placement="top" title="delete subject"><i class="fa fa-trash"></button></td>
+                                    foreach($active_programs as $program_list){ ?>
+                                        <tr>
+                                        <td> <?= $program_list['first_name'].' '.$program_list['last_name'] ?> </td>
+                                        <td><button type="button" onclick="dropChild(<?= $program_list['child_id'];?>, <?= $program_list['program_id'] ?>)" class="btn-sm btn-danger dlt_record" data-toggle="tooltip" data-placement="top" title="Drop Child"><i class="fa fa-close"></button></td>
+                                        
                                     <?php  
                                     }
                                     }
@@ -294,41 +297,20 @@ if(isset($user)){
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
     <script>
-       function deleteProgram(id){
-            var confirmation = confirm("are you sure you want to remove the item?");
+       function dropChild(id, program_id){
+            var confirmation = confirm("are you sure you want to drop child from this program?");
 
             if(confirmation){
                 $.ajax({
                     method: "get",
-                    url: "../includes/programs.inc.php?delete_program=" + id,
+                    url: "../includes/programs.inc.php?drop_child=" + id+'&&program_id='+program_id,
                     success: function (response){
-                    $("#records_"+id).remove();
+                        location.reload();
                     }
                 })
             }
         }
-
-        function editProgram(id){
-            $.ajax({
-                method: "get",
-                dataType: "json",
-                url: "../includes/programs.inc.php?programid=" + id,
-                success: function (response){
-                $.each(response, function(index, data) {
-                  console.log(data);
-                        $('#edit_program_id').val(id)
-                        $('#edit_program_name').val(data.program_name)
-                        $('#edit_program_description').val(data.program_description)
-                        // $('#edit_program_tags').val(data.tags)
-                        $('.editProgram').show();
-                        $('#tags2').tagsinput('add',data.tags);
-                 
-                    });
-                }
-            })
-            // $('#prof_uid').val(prof_id);
-            $('.editProgram').modal(); 
-        }
+    
     </script>
 	
   </body>

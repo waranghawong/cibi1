@@ -131,10 +131,9 @@ if(isset($user)){
           <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
               <div class="x_title">
-                <h2>CIBI Programs</h2>
+                <h2>CIBI Active Programs</h2>
                 <div class="clearfix"></div>
               </div>
-              <button type="button" data-toggle="modal" data-target=".addProgram" class="btn btn-sm btn-primary">Add Program</button>
               <div class="x_content">
                 <div class="row">
                   <div class="col-sm-12">
@@ -145,8 +144,6 @@ if(isset($user)){
                           <tr>
                             <th>Program Name</th>
                             <th>Program Description</th>
-                            <th>Tags</th>
-                            <th>Action</th>
                           </tr>
                         </thead>
                             
@@ -157,12 +154,10 @@ if(isset($user)){
 
                                     }
                                     else{
-                                    foreach($programs->getProgram() as $program_list){ ?>
+                                    foreach($programs->getActivePrograms() as $program_list){ ?>
                                         <tr id="records_<?= $program_list['id'];?>">
-                                        <td><?= $program_list['program_name']; ?></td>
+                                        <td> <a href="show_enrolled_child.php?id=<?= $program_list['id']; ?>"><?= $program_list['program_name']; ?></a></td>
                                         <td> <?= $program_list['program_description']; ?></td>
-                                        <td> <?= $program_list['tags']; ?></td>
-                                        <td><button type="button" data-toggle="tooltip" data-placement="top" title="edit" onclick="editProgram(<?= $program_list['id'];?>)" class="btn btn-sm btn-success"><i class="fa fa-pencil"></i></button> <button type="button" onclick="deleteProgram(<?= $program_list['id'];?>)" class="btn-sm btn-danger dlt_record" data-toggle="tooltip" data-placement="top" title="delete subject"><i class="fa fa-trash"></button></td>
                                     <?php  
                                     }
                                     }
@@ -189,93 +184,7 @@ if(isset($user)){
       </div>
     </div>
 
-         <!-- Add Program Modal -->
-         <div class="modal fade addProgram" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Program<i class="fa fa-heart"></i></h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="post" action="../includes/programs.inc.php">
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="inputAddress2">Program Name</label>
-                                    <input type="text" class="form-control" name="program_name" id="phone">
-                                </div>   
-                                <div class="form-group col-md-12">
-                                    <label for="inputAddress2">Program Description</label>
-                                    <textarea type="text" class="form-control" name="program_description" id="phone"></textarea>
-                                </div> 
 
-                                <div class="form-group col-md-12">
-                                  <label class="control-label col-md-3 col-sm-3 ">Input Tags</label>
-                                  <div class="col-md-9 col-sm-9 ">
-                                    <input id="tags_1" name="program_tags" type="text" class="tags form-control" value="health, 4-18 years old, elementary" />
-                                  </div>
-                                </div>
-
-
-                                <div class="form-group col-md-12">
-                                    <button type="submit" name="submit" id="btn_submit" class="btn btn-primary">Submit</button>
-                                </div>
-                              </div>
-                                    
-                          
-                        </form>
-                    </div>
-                  
-                </div>
-            </div>
-        </div>
-
-
-           <!-- Edit Program Modal -->
-           <div class="modal fade editProgram" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Program<i class="fa fa-heart"></i></h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="post" action="../includes/programs.inc.php">
-                          <input type="hidden" id="edit_program_id" name="edit_program_id" value="">
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="inputAddress2">Program Name</label>
-                                    <input type="text" class="form-control" name="edit_program_name" id="edit_program_name">
-                                </div>   
-                                <div class="form-group col-md-12">
-                                    <label for="inputAddress2">Program Description</label>
-                                    <textarea type="text" class="form-control" name="edit_program_description" id="edit_program_description"></textarea>
-                                </div> 
-
-                                <div class="form-group col-md-12">
-                                  <label class="control-label col-md-3 col-sm-3 ">Input Tags</label>
-                                  <div class="col-md-9 col-sm-9 ">
-                                    <input id="tags_2"  data-role="tagsinput" name="edit_program_tags" class="tags form-control"  />
-                                  </div>
-                                </div>
-
-
-                                <div class="form-group col-md-12">
-                                    <button type="submit" name="btn_submit_edit" id="btn_submit_edit" class="btn btn-primary">Submit</button>
-                                </div>
-                              </div>
-                                    
-                          
-                        </form>
-                    </div>
-                  
-                </div>
-            </div>
-        </div>
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
@@ -293,44 +202,7 @@ if(isset($user)){
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
-    <script>
-       function deleteProgram(id){
-            var confirmation = confirm("are you sure you want to remove the item?");
-
-            if(confirmation){
-                $.ajax({
-                    method: "get",
-                    url: "../includes/programs.inc.php?delete_program=" + id,
-                    success: function (response){
-                    $("#records_"+id).remove();
-                    }
-                })
-            }
-        }
-
-        function editProgram(id){
-            $.ajax({
-                method: "get",
-                dataType: "json",
-                url: "../includes/programs.inc.php?programid=" + id,
-                success: function (response){
-                $.each(response, function(index, data) {
-                  console.log(data);
-                        $('#edit_program_id').val(id)
-                        $('#edit_program_name').val(data.program_name)
-                        $('#edit_program_description').val(data.program_description)
-                        // $('#edit_program_tags').val(data.tags)
-                        $('.editProgram').show();
-                        $('#tags2').tagsinput('add',data.tags);
-                 
-                    });
-                }
-            })
-            // $('#prof_uid').val(prof_id);
-            $('.editProgram').modal(); 
-        }
-    </script>
-	
+ 
   </body>
 </html>
 <?php

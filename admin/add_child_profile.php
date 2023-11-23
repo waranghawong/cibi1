@@ -420,6 +420,18 @@ if(isset($user)){
                           </div>
 
                           <div class="col-md-12 mt-3">
+                          <label for="validationCustom02" class="form-label">Family Involvement & Community Awareness</label><br>
+                               <select  class="form-control" name="family_involvement">
+                                    <option value="">Please select option</option>
+                                    <option value="TUPAD">TUPAD</option>
+                                    <option value="UNICEF">UNICEF</option>
+                                    <option value="4ps">4ps</option>
+                                    <option value="">None</option>
+                                    <option value="other">Others</option>
+                               </select>
+                            </div>
+
+                          <div class="col-md-12 mt-3">
                             <label for="validationCustom02" class="form-label">No. of Persons</label>
                             <input type="number" class="form-control" id="no_of_persons" name="no_of_persons" value="" required>
                             <div class="valid-feedback">
@@ -595,7 +607,7 @@ if(isset($user)){
                                       <option value="elementary">Elementary Graduate</option>
                                       <option value="hs_undergrad">High School Undergraduate</option>
                                       <option value="hs_grad">High School Graduate</option>
-                                      <option value="college_grad">Colleg Graduate</option>
+                                      <option value="college_grad">College Graduate</option>
                                   </select>
                                   <div class="valid-feedback">
                                     Looks good!
@@ -651,7 +663,14 @@ if(isset($user)){
 
                               <div class="col-md-12 mt-3">
                                 <label for="validationCustom02" class="form-label">CURRENT GRADE LEVEL</label>
-                                <input type="text" class="form-control" id="current_grade_level" name="current_grade_level" value="" >
+                                <!-- <input type="text" class="form-control" id="current_grade_level" name="current_grade_level" value="" > -->
+                                <select id="current_grade_level" name="current_grade_level" class="form-control">
+                                      <option value=""></option>
+                                      <option value="elementary">Elementary</option>
+                                      <option value="highschool">High School</option>
+                                      <option value="senior high">Senior High</option>
+                                      <option value="college">College</option>
+                                  </select>
                                 <div class="valid-feedback">
                                   Looks good!
                                 </div>
@@ -836,7 +855,7 @@ if(isset($user)){
                             <div class="text-center">
                                <div class="col-md-3 mt-3">
                                   <label for="validationCustom02" class="form-label">First Name</label>
-                                  <input type="text" class="form-control" name="unreg_sibling_first_name[]" value="" required>
+                                  <input type="text" class="form-control" name="unreg_sibling_first_name[]" value="" >
                                   <div class="valid-feedback">
                                     Looks good!
                                   </div>
@@ -847,7 +866,7 @@ if(isset($user)){
 
                                <div class="col-md-3 mt-3">
                                   <label for="validationCustom02" class="form-label">Last Name</label>
-                                  <input type="text" class="form-control" name="unreg_sibling_last_name[]" value="" required>
+                                  <input type="text" class="form-control" name="unreg_sibling_last_name[]" value="" >
                                   <div class="valid-feedback">
                                     Looks good!
                                   </div>
@@ -858,7 +877,7 @@ if(isset($user)){
 
                                <div class="col-md-3 mt-3">
                                     <label for="validationCustom02" class="form-label">Date of Birth</label>
-                                    <input type="date" class="form-control" name="unreg_sibling_dob[]" value="" required>
+                                    <input type="date" class="form-control" name="unreg_sibling_dob[]" value="" >
                                     <div class="valid-feedback">
                                       Looks good!
                                     </div>
@@ -907,7 +926,7 @@ if(isset($user)){
                             <div class="text-center">
                                <div class="col-md-3 mt-3">
                                   <label for="validationCustom02" class="form-label">First Name</label>
-                                  <input type="text" class="form-control" name="siblings_first_name[]" value="" required>
+                                  <input type="text" class="form-control" name="siblings_first_name[]" value="" >
                                   <div class="valid-feedback">
                                     Looks good!
                                   </div>
@@ -918,7 +937,7 @@ if(isset($user)){
 
                                <div class="col-md-3 mt-3">
                                   <label for="validationCustom02" class="form-label">Last Name</label>
-                                  <input type="text" class="form-control" name="siblings_last_name[]" value="" required>
+                                  <input type="text" class="form-control" name="siblings_last_name[]" value="">
                                   <div class="valid-feedback">
                                     Looks good!
                                   </div>
@@ -929,7 +948,7 @@ if(isset($user)){
 
                                <div class="col-md-3 mt-3">
                                     <label for="validationCustom02" class="form-label">Date of Birth</label>
-                                    <input type="date" class="form-control" name="sibling_dob[]" value="" required>
+                                    <input type="date" class="form-control" name="sibling_dob[]" value="">
                                     <div class="valid-feedback">
                                       Looks good!
                                     </div>
@@ -990,7 +1009,7 @@ if(isset($user)){
           <div class="modal-body">
             Well done!
           </div>
-          Your total point is: <b class= "total_points"></b>
+           Your total point is: <b class= "total_points"></b>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" onclick="closeModal()">Ok, close and reset</button>
           </div>

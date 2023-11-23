@@ -1,6 +1,6 @@
 <?php
   include "../classes/userContr.classes.php";
-  include "../includes/users.inc.php";
+  include "../includes/programs.inc.php";
 
   $userdata = new UserCntr();
   $user = $userdata->get_userdata();
@@ -10,6 +10,11 @@ if(isset($user)){
   $name = ucfirst(ucfirst($user['full_name']));
   $username = $user['username'];
   $role = $user['role'];
+
+
+
+ $programs_for_user = $programs->getProgramsForUser($user['user_id']);
+
   if(isset($role) == 'child-account'){
 
 
@@ -130,80 +135,45 @@ if(isset($user)){
 
         <!-- page content -->
         <div class="right_col" role="main">
+                   <div class="alert alert-danger error_alert" role="alert">
+                         <div class="error_div">
 
-        <div class="row">
-            <div class="col-md-12 col-sm-12 ">
-              <div class="x_panel">
-                <div class="x_title">
-                  <h2>Recent Activities <small>Sessions</small></h2>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <div class="dashboard-widget-content">
+                         </div>
+                    </div>
+                    <div class="alert alert-success success_alert" role="alert">
+                        <div class="success_div">
+                                            
+                         </div>
+                    </div>
+             <div class="row col-md-3">
 
-                    <ul class="list-unstyled timeline widget">
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="block">
-                          <div class="block_content">
-                            <h2 class="title">
-                                              <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                                          </h2>
-                            <div class="byline">
-                              <span>13 hours ago</span> by <a>Jane Smith</a>
-                            </div>
-                            <p class="excerpt">Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… <a>Read&nbsp;More</a>
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+             <table class="table text-center">
+                <thead>
+                  <tr>
+                    <th scope="col">Program Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php 
+                      foreach($programs_for_user as $pgrms){
+                        ?>
+                        <tr>
+                          <td><a href="#" onclick="getprogramData(<?= $pgrms['id'] ?>)"><?= $pgrms['program_name']; ?></a></td>
+                          </tr>
+                          <?php
+                      }
+                 
+                 
+               ?>
+                </tbody>
+              </table>
+
             </div>
-            
+
+
+             <div class="row col-md-6" id="program-content">
+                    
+   
              
             </div>
           </div>
@@ -236,8 +206,31 @@ if(isset($user)){
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+    <script>
+        $('.error_alert').hide();
+        $('.success_alert').hide();
+      function getprogramData(id){
+          $.ajax({
+            type: "GET",
+            url: "../includes/ajaxcontents.php",
+            dataType: 'html',
+            data: {id: id},
+
+            success: function(html){
+                    $("#program-content").html(html);
+            },
+
+            error: function(){
+            },
+
+            complete: function(){
+            }
+        });
+      }
+       
+    </script>
    
-	
+   
   </body>
 </html>
 <?php

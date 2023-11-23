@@ -12,12 +12,12 @@ class childProfileCntrl extends childProfile{
     }
 
     //child profile house hold
-    public function childProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id, $points){
+    public function childProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id, $family_involvement, $points){
       if($this->checkRecordExist($id) == true){
-        $this->updatechildProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id, $points);
+        $this->updatechildProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id, $family_involvement,  $points);
       }
       else{
-        return $this->setchildProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id, $points);
+        return $this->setchildProfileHouseHold($address, $income, $beds, $no_of_persons, $walls, $roof, $floor, $condition, $ownership_status, $cooking_facility, $water_source, $electricity, $sanitary_facility, $id, $family_involvement, $points);
       
       }
     }
@@ -66,6 +66,14 @@ class childProfileCntrl extends childProfile{
           }
   
         }
+
+
+    public function getChildData($id){
+      return $this->childData($id);
+    }
+    public function getChildDataHouseHold($id){
+      return $this->household($id);
+    }
 
     public function checkRecordExist($id){
 

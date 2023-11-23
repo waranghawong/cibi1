@@ -1,5 +1,6 @@
 <ul class="nav side-menu">
     <li><a href="index.php"><i class="fa fa-home"></i> Home</a></li>
+    <li><a href="active_programs.php"><i class="fa fa-check-square-o"></i> Active Programs</a></li>
     <li><a href="programs.php"><i class="fa fa-heart"></i> Programs</a></li>
     <li><a href="child_profile.php"><i class="fa fa-child"></i> Child Profile</a></li>
     <li><a href="case_management.php"><i class="fa fa-bar-chart"></i>Case Management</a></li>
@@ -26,6 +27,7 @@
     <li><a><i class="fa fa-table"></i> Utilities <span class="fa fa-chevron-down"></span></a>
     <ul class="nav child_menu">
         <li><a href="externals.php">Externals</a></li>
+        <li><a href="scanner.php">QR Code Scanner</a></li>
     </ul>
     </li>
 </ul>

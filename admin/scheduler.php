@@ -11,12 +11,18 @@
   $calendar = new Calendar();
 
   $color = array("red","green","blue","yellow");
-  $random_keys=array_rand($color,count($sched->getEvents()));
-  foreach($sched->getEvents() as $key => $rm){
+  // $random_keys=array_rand($color,count($sched->getEvents()));
+  if($sched->getEvents() != ""){
+    foreach($sched->getEvents() as $key => $rm){
 
-    $calendar->add_event($rm['program_name'], $rm['date'], $rm['no_of_days'], $color[]);
+      $calendar->add_event($rm['program_name'], $rm['date'], $rm['no_of_days'], "green");
+  
+    }
+  }
+  else{
 
   }
+
 
     
     
@@ -170,9 +176,9 @@ if(isset($user)){
                                   <thead>
                                     <tr>
                                       <th>Schedule Name</th>
-                                      <th>Schedule Category</th>
-                                      <th>Date</th>
-                                      <th>Time</th>
+                                      <th>Schedule Description</th>
+                                      <th>Date From</th>
+                                      <th>Date To</th>
                                       <th>Action</th>
                                     </tr>
                                   </thead>
@@ -187,10 +193,10 @@ if(isset($user)){
                                         else{
                                         foreach($sched->getSchedules() as $sd){ ?>
                                             <tr id="data_<?= $sd['id'];?>">
-                                              <td> <?= $sd['schedule_name']; ?></td>
-                                              <td> <?= $sd['schedule_category']; ?></td>
-                                              <td> <?= $sd['date'];  ?></td>
-                                              <td> <?= $sd['time'];  ?></td>
+                                              <td> <?= $sd['program_name']; ?></td>
+                                              <td> <?= $sd['program_description']; ?></td>
+                                              <td> <?= $sd['date_from'];  ?></td>
+                                              <td> <?= $sd['date_to'];  ?></td>
                                               <td><button type="button" class="btn btn-sm btn-success"  onclick="editSchedule(<?= $sd['id'];?>)"><i class="fa fa-pencil"></i></button><button type="button" class="btn btn-sm btn-danger"  onclick="deleteSchedule(<?= $sd['id'];?>)"><i class="fa fa-trash"></i></button></td>
                                             </tr>
                                           <?php  
@@ -224,20 +230,29 @@ if(isset($user)){
               <div class="modal-body">
                 <form method="POST" action="../includes/scheduler.inc.php">
                     <div class="col-md-12 col-sm-12  form-group has-feedback">
-                        <input type="text" name="schedule_name" class="form-control has-feedback-left" id="schedule_name" placeholder="schedule name">
-                        <span class="fa fa-list-alt form-control-feedback left" aria-hidden="true"></span>
+                             <select class="form-control" name="program_value">
+                                  <?php 
+                                    foreach($sched->getPrograms() as $programs){
+                                  ?>
+                                  <option value="<?= $programs['id'] ?>"><?= $programs['program_name'] ?></option>
+                                  <?php } ?>
+                                </select>
 										 </div>
-                     <div class="col-md-12 col-sm-12  form-group has-feedback">
-                        <textarea name="schedule_type" class="form-control has-feedback-left" id="schedule_type" placeholder="schedule category"></textarea>
-                        <span class="fa fa-list-ul form-control-feedback left" aria-hidden="true"></span>
+                 
+                     <div class="col-md-12 col-sm-12  form-group">
+                     <label for="schedule_date_from">From</label>
+                        <input type="date" name="schedule_date_from" class="form-control" id="schedule_date_from" placeholder="schedule category">
 										 </div>
-                     <div class="col-md-12 col-sm-12  form-group has-feedback">
-                        <input type="date" name="schedule_date" class="form-control has-feedback-left" id="schedule_date" placeholder="schedule category">
-                        <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+      
+                     <div class="col-md-12 col-sm-12  form-group">
+                     <label for="schedule_date_to">To</label>
+                        <input type="date" name="schedule_date_to" class="form-control" id="schedule_date_to" placeholder="schedule category">
 										 </div>
-                     <div class="col-md-12 col-sm-12  form-group has-feedback">
-                        <input type="time" name="schedule_time" class="form-control has-feedback-left" id="schedule_time" placeholder="schedule category">
-                        <span class="fa fa-clock-o form-control-feedback left" aria-hidden="true"></span>
+
+                     
+                     <div class="col-md-12 col-sm-12  form-group">
+                     <label for="schedule_date_to">Limit</label>
+                        <input type="number" name="schedule_limit" class="form-control" id="schedule_limit" >
 										 </div>
                     <!-- <div class="form-row col-md-6">
                             <input type="file" name="item_photo" value=""  onchange="loadFile(event)">
@@ -263,29 +278,37 @@ if(isset($user)){
             <div class="modal-content">
 
               <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Add Schedule</h4>
+                <h4 class="modal-title" id="myModalLabel">Edit Schedule</h4>
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                 </button>
               </div>
               <div class="modal-body">
                 <form method="POST" action="../includes/scheduler.inc.php">
                    <input type="hidden" name="edit_schedule_id" id="edit_schedule_id">
-                    <div class="col-md-12 col-sm-12  form-group has-feedback">
-                        <input type="text" name="edit_schedule_name" class="form-control has-feedback-left" id="edit_schedule_name" placeholder="schedule name">
-                        <span class="fa fa-list-alt form-control-feedback left" aria-hidden="true"></span>
+                   <div class="col-md-12 col-sm-12  form-group has-feedback">
+                             <select class="form-control" name="program_value">
+                                  <?php 
+                                    foreach($sched->getPrograms() as $programs){
+                                  ?>
+                                  <option value="<?= $programs['id'] ?>"><?= $programs['program_name'] ?></option>
+                                  <?php } ?>
+                                </select>
 										 </div>
-                     <div class="col-md-12 col-sm-12  form-group has-feedback">
-                        <textarea name="edit_schedule_type" class="form-control has-feedback-left" id="edit_schedule_type" placeholder="schedule category"></textarea>
-                        <span class="fa fa-list-ul form-control-feedback left" aria-hidden="true"></span>
+                     <div class="col-md-12 col-sm-12  form-group">
+                     <label for="schedule_date_from">From</label>
+                        <input type="date" name="schedule_date_from" class="form-control" id="edit_schedule_date_from" placeholder="schedule category">
 										 </div>
-                     <div class="col-md-12 col-sm-12  form-group has-feedback">
-                        <input type="date" name="edit_schedule_date" class="form-control has-feedback-left" id="edit_schedule_date" placeholder="schedule category">
-                        <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+      
+                     <div class="col-md-12 col-sm-12  form-group">
+                     <label for="schedule_date_to">To</label>
+                        <input type="date" name="schedule_date_to" class="form-control" id="edit_schedule_date_to" placeholder="schedule category">
 										 </div>
-                     <div class="col-md-12 col-sm-12  form-group has-feedback">
-                        <input type="time" name="edit_schedule_time" class="form-control has-feedback-left" id="edit_schedule_time" placeholder="schedule category">
-                        <span class="fa fa-clock-o form-control-feedback left" aria-hidden="true"></span>
+
+                     <div class="col-md-12 col-sm-12  form-group">
+                     <label for="schedule_date_to">Limit</label>
+                        <input type="number" name="schedule_limit" class="form-control" id="edit_schedule_limit" >
 										 </div>
+                 
                     <!-- <div class="form-row col-md-6">
                             <input type="file" name="item_photo" value=""  onchange="loadFile(event)">
                     </div>
@@ -363,17 +386,16 @@ if(isset($user)){
                 $.each(response, function(index, data) {
                   console.log(data);
                         $('#edit_schedule_id').val(data.id)
-                        $('#edit_schedule_name').val(data.schedule_name)
-                        $('#edit_schedule_type').val(data.schedule_category)
-                        $('#edit_schedule_date').val(data.date)
-                        $('#edit_schedule_time').val(data.time)
+                        $('#edit_schedule_date_from').val(data.date_from)
+                        $('#edit_schedule_date_to').val(data.date_to)
+                        $('#edit_schedule_limit').val(data.schedule_limit)
                         $('.edit_schedule').modal();
                     });
                 }
                
             })
             $('#student_id').val(id);
-            $('#editStudent').modal(); 
+            $('.edit_schedule').modal(); 
         }
 
         function deleteSchedule(id){

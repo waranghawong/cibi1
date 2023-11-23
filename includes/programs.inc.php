@@ -40,4 +40,12 @@ if(isset($_POST['btn_submit_edit'])){
 }
 
 
+if(isset($_POST['id']) && isset($_POST['program_id'])){
+    $programs->enrollChild($_POST['id'], $_POST['program_id']);
+}
+
+if(isset($_GET['drop_child']) && isset($_GET['program_id'])){
+   $programs->dropChild($_GET['drop_child'],$_GET['program_id'] );
+}
+
 ?>

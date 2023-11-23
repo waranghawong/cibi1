@@ -40,6 +40,10 @@
      
     }
 
+
+    if(isset($_GET['child_profile'])){
+        echo json_encode(array($child_profile->getChildData($_GET['child_profile'])));
+    }
   
 
 

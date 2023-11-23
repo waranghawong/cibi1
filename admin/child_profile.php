@@ -9,8 +9,10 @@ if(isset($user)){
   $name = ucfirst(ucfirst($user['full_name']));
   $username = $user['username'];
   $role = $user['role'];
-  if(isset($role) == 'Admin'){
 
+
+
+  if(isset($role) == 'Admin'){
 
 ?>
 <!DOCTYPE html>
@@ -169,7 +171,7 @@ if(isset($user)){
                                         <td> <?= date("M, d Y", strtotime( $child['dob'])); ?></td>
                                         <td> <?= ucfirst($child['gender']); ?></td>
                                         <td> <?= $child['created_at'] ?></td>
-                                        <td><button type="button" data-toggle="tooltip" data-placement="top" title="Edit" onclick="editProgram(<?= $child['id'];?>)" class="btn btn-sm btn-success"><i class="fa fa-pencil"></i></button><button type="button" class="btn btn-sm btn-warning" onclick="showChildProfile()" data-toggle="tooltip" data-placement="top" title="Show All Child Profile"><i class="fa fa-eye"></i></i></button> <button type="button" onclick="deleteProgram(<?= $child['id'];?>)" class="btn-sm btn-danger dlt_record" data-toggle="tooltip" data-placement="top" title="delete child record"><i class="fa fa-trash"></button></td>
+                                        <td><a href="edit_child_profile.php?id=<?= $child['id']; ?>"  class="btn btn-sm btn-warning" onclick="showChildProfile()" data-toggle="tooltip" data-placement="top" title="Show All Child Profile"><i class="fa fa-eye"></i></i></a> <button type="button" onclick="deleteProgram(<?= $child['id'];?>)" class="btn-sm btn-danger dlt_record" data-toggle="tooltip" data-placement="top" title="delete child record"><i class="fa fa-trash"></button></td>
                                     <?php  
                                     }
                                     }
@@ -249,25 +251,33 @@ if(isset($user)){
                               </ul>
                               <div class="clearfix"></div>
                             </div>
+                            <button type="button" class="btn btn-sm btn-primary" ><i class ="fa fa-edit"></i></button>
                                <div class="x_content">
                                 <div class="col-md-12">
                                     <div class="col-md-6">
                                       <div class="row">
-                                                Transaction Number:
+                                                Full Name:
                                           <div class="col">
                                                 <div id="transaction_number"></div>  
                                           </div>
                                       </div>
 
                                       <div class="row mt-2">
-                                                Created Date and Time:
+                                                Gender:
                                           <div class="col">
                                                 <div id="purchase_created_at"></div>  
                                           </div>
                                       </div>
 
                                       <div class="row mt-2">
-                                                Expecting Amount:
+                                                Ad Consent:
+                                          <div class="col">
+                                                <div id="expecting_amount"></div>  
+                                          </div>
+                                      </div>
+
+                                      <div class="row mt-2">
+                                                Date of Birth:
                                           <div class="col">
                                                 <div id="expecting_amount"></div>  
                                           </div>
@@ -275,23 +285,86 @@ if(isset($user)){
                                     </div>
 
                                     <div class="col-md-6">
-                               
 
                                       <div class="row mt-2">
-                                                Total Expecting Amount:
+                                                Height:
                                           <div class="col">
                                                 <div id="purchase_compounded"></div>  
                                           </div>
                                       </div>
 
                                       <div class="row mt-2">
-                                                Status:
+                                                Weight:
+                                          <div class="col">
+                                                <div id="purchase_status"></div>  
+                                          </div>
+                                      </div>
+
+                                      <div class="row mt-2">
+                                                Eye Color:
+                                          <div class="col">
+                                                <div id="purchase_status"></div>  
+                                          </div>
+                                      </div>
+
+                                      <div class="row mt-2">
+                                                Hair Color:
                                           <div class="col">
                                                 <div id="purchase_status"></div>  
                                           </div>
                                       </div>
 
                                     </div>
+
+                                      <div class="col-md-6">
+
+                                      <div class="row mt-2">
+                                                Pastimes:
+                                          <div class="col">
+                                                <div id="purchase_compounded"></div>  
+                                          </div>
+                                      </div>
+
+                                      <div class="row mt-2">
+                                                Talent/Hobbies:
+                                          <div class="col">
+                                                <div id="purchase_status"></div>  
+                                          </div>
+                                      </div>
+
+                                      <div class="row mt-2">
+                                                Chores:
+                                          <div class="col">
+                                                <div id="purchase_status"></div>  
+                                          </div>
+                                      </div>
+
+                                      <div class="row mt-2">
+                                                Child Sleeps ON:
+                                          <div class="col">
+                                                <div id="purchase_status"></div>  
+                                          </div>
+                                      </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+
+                                      <div class="row mt-2">
+                                                Language Spoken:
+                                          <div class="col">
+                                                <div id="purchase_compounded"></div>  
+                                          </div>
+                                      </div>
+
+                                      <div class="row mt-2">
+                                                Has Account:
+                                          <div class="col">
+                                                <div id="purchase_status"></div>  
+                                          </div>
+                                      </div>
+
+                                      </div>
                                  </div>
                             </div>
                           </div>
@@ -311,39 +384,100 @@ if(isset($user)){
                               <div class="col-md-12">
                                   <div class="col-md-6">
                                     <div class="row">
-                                              Reference Number:
+                                              Address:
                                         <div class="col">
                                               <div id="reference_number"></div>  
                                         </div>
                                     </div>
 
                                     <div class="row mt-2">
-                                              Amount:
+                                              Family Income:
                                         <div class="col">
                                               <div id="payment_amount"></div>  
                                         </div>
                                     </div>
 
                                     <div class="row mt-2">
-                                              Method:
+                                              Family Involvement:
+                                        <div class="col">
+                                              <div id="payment_method"></div>  
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-2">
+                                              Walls:
+                                        <div class="col">
+                                              <div id="payment_method"></div>  
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-2">
+                                              Roof:
                                         <div class="col">
                                               <div id="payment_method"></div>  
                                         </div>
                                     </div>
 
-                                    
+                                    <div class="row mt-2">
+                                              Floor:
+                                        <div class="col">
+                                              <div id="payment_method"></div>  
+                                        </div>
+                                    </div>
                                   </div>
 
                                     <div class="col-md-6">
                                     <div class="row">
-                                              Receipt Date:
+                                              Number of Beds:
                                         <div class="col">
                                               <div id="date_purchased"></div>  
                                         </div>
                                     </div>
 
                                     <div class="row mt-3">
-                                              Uploaded Image:
+                                              Number of Persons:
+                                        <div class="col">
+                                              <div id="payment_image"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                              House Condition:
+                                        <div class="col">
+                                              <div id="payment_image"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                              Ownership Status:
+                                        <div class="col">
+                                              <div id="payment_image"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                              Cooking Facility:
+                                        <div class="col">
+                                              <div id="payment_image"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                              Water Source:
+                                        <div class="col">
+                                              <div id="payment_image"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                              Electricity:
+                                        <div class="col">
+                                              <div id="payment_image"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                              Sanitary Facility:
                                         <div class="col">
                                               <div id="payment_image"></div>  
                                         </div>
@@ -372,7 +506,207 @@ if(isset($user)){
                               <div class="col-md-12">
                                   <div class="col-md-6">
                                     <div class="row">
-                                              Reference Number:
+                                              Attends School?:
+                                        <div class="col">
+                                              <div id="reference_number"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                              School Name:
+                                        <div class="col">
+                                              <div id="payment_amount"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                              School Type:
+                                        <div class="col">
+                                              <div id="payment_method"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                              Academic Year:
+                                        <div class="col">
+                                              <div id="payment_method"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                              School Transportation:
+                                        <div class="col">
+                                              <div id="payment_method"></div>  
+                                        </div>
+                                    </div>
+
+                                    
+                                  </div>
+
+                                    <div class="col-md-6">
+                                    <div class="row">
+                                              Time School Travels:
+                                        <div class="col">
+                                              <div id="date_purchased"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                              Recent Grade Level:
+                                        <div class="col">
+                                              <div id="payment_image"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                              Current Grade Level:
+                                        <div class="col">
+                                              <div id="payment_image"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                              Favorite School Subject:
+                                        <div class="col">
+                                              <div id="payment_image"></div>  
+                                        </div>
+                                    </div>
+
+
+                                  </div>
+                               </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2>Family Information</h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+                              <div class="col-md-12">
+                                  <div class="col-md-6">
+                                    <div class="row">
+                                              Mother Name:
+                                        <div class="col">
+                                              <div id="reference_number"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                              Mother Absent?:
+                                        <div class="col">
+                                              <div id="payment_amount"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                              Mother Occupation:
+                                        <div class="col">
+                                              <div id="payment_method"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                              Is Mother Guardian?:
+                                        <div class="col">
+                                              <div id="payment_method"></div>  
+                                        </div>
+                                    </div>
+
+                                  </div>
+
+                                  <div class="col-md-6">
+                                    <div class="row">
+                                              Father Name:
+                                        <div class="col">
+                                              <div id="reference_number"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                              Father Absent?:
+                                        <div class="col">
+                                              <div id="payment_amount"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                             Father Occupation:
+                                        <div class="col">
+                                              <div id="payment_method"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                              Is Father Guardian?:
+                                        <div class="col">
+                                              <div id="payment_method"></div>  
+                                        </div>
+                                    </div>
+
+                                  </div>
+
+                                    <div class="col-md-12 mt-4">
+                                    <div class="row">
+                                              Guardian Name:
+                                        <div class="col">
+                                              <div id="date_purchased"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                              Guardian Occupation:
+                                        <div class="col">
+                                              <div id="payment_image"></div>  
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                              Guardian Relationship:
+                                        <div class="col">
+                                              <div id="payment_image"></div>  
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row mt-5">
+                                              Child Lives With:
+                                        <div class="col">
+                                              <div id="payment_image"></div>  
+                                        </div>
+                                    </div>
+
+
+
+                                  </div>
+                               </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2>Siblings</h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+                              <div class="col-md-12">
+                                  <div class="col-md-6">
+                                    <div class="row">
+                                              Name:
                                         <div class="col">
                                               <div id="reference_number"></div>  
                                         </div>
@@ -421,7 +755,7 @@ if(isset($user)){
                         <div class="col-md-12">
                           <div class="x_panel">
                             <div class="x_title">
-                              <h2>Family Information</h2>
+                              <h2>Program Enrolled</h2>
                               <ul class="nav navbar-right panel_toolbox">
                                 </li>
                               </ul>
@@ -524,6 +858,10 @@ if(isset($user)){
     <script>
         function showChildProfile(){
             $('.viewdetails').modal();
+        }
+
+        function editChildProfile(id){
+          console.log(id)
         }
     </script>
 	

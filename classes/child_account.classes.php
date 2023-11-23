@@ -30,6 +30,21 @@ class childAccount extends DB{
             return false;
         }
     }
+    
+    protected function childDataById($id){
+        $connection = $this->dbOpen();
+        $stmt = $connection->prepare("SELECT * FROM child_account WHERE UserID = ?");
+        $stmt->execute([$id]);
+
+
+        $data = $stmt->fetch();
+        if($stmt->rowCount() > 0){
+            return $data;
+        }
+        else{
+            return false;
+        }
+    }
 
     protected function checkUsername($username){
         $resultCheck;
@@ -58,7 +73,87 @@ class childAccount extends DB{
             header("location: ../admin/child-accounts.php?errors=stmtfailed");
             exit();
         }
-            header("location: ../admin/child-accounts.php");
+        else{
+            $stmt = $connection->prepare("UPDATE child_info SET has_account = ? WHERE id = ?");
+            if(!$stmt->execute(['1', $child_id])){
+                $stmt = null;
+                header("location: index.php?errors=stmtfailed");
+                exit();
+            }
+              header("location: ../admin/child-accounts.php");
+        }
+           
+    }
+
+    protected function getChildACcounts(){
+        $connection = $this->dbOpen();
+        $stmt = $connection->prepare("SELECT * FROM child_account");
+        $stmt->execute();
+        $data = $stmt->fetchall();
+
+        if($stmt->rowCount() > 0 ){
+           return $data;
+        }
+        else{
+            return false;
+        }
+    }
+
+    protected function editChildAccount($fname, $lname, $username,$email,  $address, $password, $phone,$child_id){
+        $connection = $this->dbOpen();
+        if($password != ''){
+            $password = md5($password);
+            $stmt = $connection->prepare("UPDATE child_account SET first_name = ?, last_name = ?,username =?, email = ?,address = ?,phoneNumber = ?, address = ?, password = ? WHERE UserID = ?");
+            if(!$stmt->execute([$fname, $lname, $username, $email,  $address, $phone,$password, $child_id])){
+                $stmt = null;
+                header("location: index.php?errors=stmtfailed");
+                exit();
+            }
+                header("location: ../admin/child-accounts.php?success=1");
+
+        }
+        else{
+            $stmt = $connection->prepare("UPDATE child_account SET first_name = ?, last_name = ?,username =?, email = ?, address = ?,phoneNumber = ? WHERE UserID = ?");
+            if(!$stmt->execute([$fname, $lname, $username,$email,  $address, $phone, $child_id])){
+                $stmt = null;
+                header("location: index.php?errors=stmtfailed");
+                exit();
+            }
+                header("location: ../admin/child-accounts.php?success=1");
+
+        }
+    }
+
+    protected function deleteChild($id, $child_id){
+        $connection = $this->dbOpen();
+        $stmt = $connection->prepare("DELETE FROM child_account WHERE userID = ?");
+        if(!$stmt->execute([$id])){
+            $stmt = null;
+            header("location: index.php?errors=stmtfailed");
+            exit();
+        }
+        else{
+            $stmt = $connection->prepare("UPDATE child_info SET has_account = ? WHERE id = ?");
+            if(!$stmt->execute(['0', $child_id])){
+                $stmt = null;
+                header("location: index.php?errors=stmtfailed");
+                exit();
+            }
+        }
+    }
+
+    protected function getProgramSchedules(){
+        $connection = $this->dbOpen();
+        $stmt = $connection->prepare("SELECT * FROM schedule WHERE date_from <= CURDATE() AND date_to >= CURDATE();");
+        $stmt->execute();
+        $data = $stmt->fetchall();
+
+        if($stmt->rowCount() > 0 ){
+           return $data;
+        }
+        else{
+            return false;
+        }
     }
 }
 

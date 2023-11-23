@@ -14,4 +14,21 @@
     if(isset($_GET['child_id'])){
         $child_account->getChildData($_GET['child_id']);
     }
+
+
+    if(isset($_GET['childid'])){
+        $child_account->getChildById($_GET['childid']);
+    }
+
+    
+    if(isset($_POST['btn_edit_submit'])){
+        $child_account->updateChildAccount();
+    }
+
+    if(isset($_GET['delete_child'] ) && isset($_GET['child_id'])){
+        $child_account->deleteChildById($_GET['delete_child'], $_GET['child_id']);
+    }
+
+
+
 ?>

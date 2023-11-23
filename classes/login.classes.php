@@ -5,8 +5,8 @@ class login extends DB{
     protected function getUser($username, $pwd){
         
             $con = $this->dbOpen(); 
-            $stmt = $con->prepare("SELECT * FROM users WHERE username = ?");
-            if(!$stmt->execute(array($username))){
+            $stmt = $con->prepare("SELECT UserID, first_name, last_name, username, password, email, phoneNumber, address, role FROM child_account WHERE username = ? UNION SELECT UserID, first_name, last_name, username, password, email, phoneNumber, address, role FROM users WHERE username = ?");
+            if(!$stmt->execute(array($username,$username))){
                 $stmt = null;
                 header("location: ../login.php?error=stmtfailed");
                 exit();
@@ -17,19 +17,19 @@ class login extends DB{
                 exit();
             }
             $password = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            //$pass1 = md5($pwd);
+            $pass1 = md5($pwd);
           
             $pass = $password[0]['password'];
-          
-            if($pass != $pwd){
+
+            if($pass1 != $pass){
                 $stmt = null;
                 header("Location: ../login.php?error=wrong_password");
                 exit();
 
             } 
-            elseif($pwd == $pass){
-                $stmt = $con->prepare("SELECT UserID, first_name, last_name, username, role  FROM users WHERE username = ? AND password = ?");
-                if(!$stmt->execute(array($username, $pwd))){
+            elseif($pass1 == $pass){
+                $stmt = $con->prepare("SELECT UserID, first_name, last_name, username, password, email, phoneNumber, address, role FROM child_account WHERE username = ? AND password = ? UNION SELECT UserID, first_name, last_name, username, password, email, phoneNumber, address, role FROM users WHERE username = ? AND password = ?");
+                if(!$stmt->execute(array($username, $pass1,$username, $pass1))){
                     $stmt = null;
                     header("Location: ../login.php?error=stmt_failed");
                     exit();
@@ -41,7 +41,6 @@ class login extends DB{
                 }
                     
                 $user = $stmt->fetch();
-                var_dump($user['role']);
                 if($stmt->rowCount() > 0){
                     if($user['role'] == 'Admin'){
                         $admin = new StartSession($user);
@@ -51,6 +50,10 @@ class login extends DB{
                     elseif($user['role'] == 'sub-admin'){
                         $admin = new StartSession($user);
                         header("location: ../users/index.php");
+                    }
+                    else{
+                        $admin = new StartSession($user);
+                        header("location: ../child_account/index.php");
                     }
             
                 }
