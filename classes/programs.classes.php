@@ -219,6 +219,7 @@ class programs extends DB{
             $connection = $this->dbOpen();
             $stmt = $connection->prepare('INSERT INTO child_program (child_id, program_id,is_enrolled, created_at) VALUES (?,?,?,?)');
             if($this->checkEnrolledExist($id, $program_id) == true){
+               
                 return array('error' => 'You are already enrolled in this program ','id'=>$id, 'program_id'=>$program_id);
             }
             else{
@@ -227,6 +228,7 @@ class programs extends DB{
                     header("location: ../admin/programs.php?errors=stmtfailed");
                     exit();
                 }
+                $logs = new LogsController($id, $program_id, 'has successfully enrolled a program', 'has successfully enrolled to this program at '.$datetimetoday.'', 'enroll');
                 return array('success' => 'You have successfully enrolled ','id'=>$id, 'program_id'=>$program_id);
             }
 

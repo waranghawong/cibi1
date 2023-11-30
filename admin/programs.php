@@ -1,6 +1,7 @@
 <?php
   include "../classes/userContr.classes.php";
   include "../includes/programs.inc.php";
+
   $userdata = new UserCntr();
   $user = $userdata->get_userdata();
 
@@ -10,6 +11,7 @@ if(isset($user)){
   $username = $user['username'];
   $role = $user['role'];
   if(isset($role) == 'Admin'){
+  
 
 
 ?>

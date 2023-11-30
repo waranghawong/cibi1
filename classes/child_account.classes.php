@@ -155,6 +155,27 @@ class childAccount extends DB{
             return false;
         }
     }
+
+    protected function insertChildAttendance($user_id, $status, $timestamp){
+        // $datetimetoday = date("Y-m-d H:i:s");
+        // $connection = $this->dbOpen();
+        // $stmt = $connection->prepare('INSERT INTO child_account () VALUES ()');
+
+        // if(!$stmt->execute()){
+        //     $stmt = null;
+        //     header("location: ../admin/child-accounts.php?errors=stmtfailed");
+        //     exit();
+        // }
+        // else{
+        //     $stmt = $connection->prepare("UPDATE child_info SET has_account = ? WHERE id = ?");
+        //     if(!$stmt->execute(['1', $child_id])){
+        //         $stmt = null;
+        //         header("location: index.php?errors=stmtfailed");
+        //         exit();
+        //     }
+        //       header("location: ../admin/child-accounts.php");
+        // }
+    }
 }
 
 

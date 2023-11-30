@@ -20,6 +20,7 @@ class login extends DB{
             $pass1 = md5($pwd);
           
             $pass = $password[0]['password'];
+          
 
             if($pass1 != $pass){
                 $stmt = null;

@@ -12,6 +12,7 @@ if(isset($user)){
   $role = $user['role'];
   if(isset($role) == 'child-account'){
 
+  $notification_count = $users->notificationCount($user['user_id']);
 
 ?>
 <!DOCTYPE html>

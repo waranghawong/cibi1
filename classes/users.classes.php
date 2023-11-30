@@ -116,6 +116,22 @@ class userClass extends DB{
      
     }
 
+    protected function countNotif($id){
+        $connection = $this->dbOpen();
+        $stmt = $connection->prepare("SELECT count(user_id) as count FROM notification WHERE user_id = ? AND is_opened = ?");
+        $stmt->execute([$id, 0]);
+
+        $data = $stmt->fetch();
+        $total = $stmt->rowCount();
+
+        if($total > 0){
+            return $data;
+        }
+        else{
+            return false;
+        } 
+    }
+
 
 
 }

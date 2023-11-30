@@ -1,3 +1,27 @@
+
+<?php
+  include "../classes/userContr.classes.php";
+  include "../includes/programs.inc.php";
+  include "../classes/events.classes.php";
+  include "../classes/events-contr.classes.php";
+
+  $events =  new EventsCntrl();
+  $date = new DateTime();
+  $userdata = new UserCntr();
+  $user = $userdata->get_userdata();
+  $new_date =  $date->format('Y-m-d');
+  $sd = $events->getEvents($new_date);
+
+if(isset($user)){
+      
+  $name = ucfirst(ucfirst($user['full_name']));
+  $username = $user['username'];
+  $role = $user['role'];
+  if(isset($role) == 'Admin'){
+  
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,6 +54,7 @@
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <style>
       .left_col .scroll-view{
         background-color: #8c4c97;
@@ -114,11 +139,43 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-                    <div class="row">
-                    <div id="reader" width="60px"></div>
+                   <div class="card card-primary">
+                      <div class="card-header"><h3>Events Today <?= $date->format('M d Y'); ?></h3> 
+                      </div>
+                        <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                          <thead>
+                            <tr>
+                              <th>Event Name</th>
+                              <th>Event Description</th>
+                              <th>Time</th>
+                            </tr>
+                          </thead>
+
+
+                          <tbody>
+                          
+                            <?php
+                                if($sd == false){
+                                    
+                                }
+                                else{
+                                foreach($sd as $sm){ ?>
+                                    <tr id="data_<?= $sm['id'];?>">
+                                      <td><a href="#" onclick="openModal(<?= $sm['id'];?>)"> <?= $sm['program_name']; ?>   </a></td>
+                                      <td> <?= $sm['program_description']; ?></td>
+                                      <td> <?= $sm['event_time'];  ?></td>
+                                    
+                                    </tr>
+                                  <?php  
+                                  }
+                                  }
+                              ?>
+                          </tbody>
+                        </table>
                     </div>
-                 
-            
+                <!-- <div class="col col-md-6">
+                   
+                </div> -->
             </div>
           </div>
         </div>
@@ -135,6 +192,78 @@
       </div>
     </div>
 
+    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12">
+                                    <!-- Portfolio Modal - Title-->
+                                    <h2 class="portfolio-modal-title text-center text-secondary text-uppercase mb-0">Attendance</h2>
+                                    <!-- Icon Divider-->
+                                    <div class="divider-custom">
+                                        <div class="divider-custom-line"></div>
+                                        <div class="divider-custom-icon"><i class="fa fa-star"></i></div>
+                                        <div class="divider-custom-line"></div>
+                                    </div>
+                                
+                                    <?= $date->format('M d Y'); ?>
+                              
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                            <div id="reader" width="60px"></div>
+                                            <div class="alert alert-success alert-dismissible" id="alertSuccess">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <i class="icon fas fa-check"></i> Attendance Added!
+                                            </div>
+                                            <div class="alert alert-danger alert-dismissible" id="alertError">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <i class="icon fas fa-ban"></i> Error!
+                                            </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="text" name="program_id" id="program_id" readonly="" placeholder="scan qr code" class="form-control">
+                                        <table id="tblattendance" class="table table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th>Time</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                    if($getAttendance == false){
+
+                                                    }
+                                                    else{
+                                                        foreach($getAttendance as $attendance){ ?>
+                                                        <tr id="attendanceID">
+                                                            <td><?= $attendance['fname'].' '.$attendance['lname']; ?></td>
+                                                            <td><?= $attendance['state']; ?></td>
+                                                            <td><?= $attendance['record']; ?></td>
+                                                        </tr>
+                                                    <?php 
+                                                    }
+                                                }
+                                                ?>
+                                        
+                                            </tbody>
+                                        </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -150,16 +279,43 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
-    <script src="../vendors/html5/html5-qrcode.min.js"></script>
 	<script>
-       function onScanSuccess(decodedText, decodedResult) {
+    var asd
+      $("#alertError").hide();
+      $("#alertSuccess").hide();
+      function openModal(id){
+       asd = $('#program_id').val(id)
+        $('#portfolioModal1').modal()
+      }
+      function onScanSuccess(decodedText, decodedResult) {
+        var sound = new Audio("../includes/barcode.wav");
         // handle the scanned code as you like, for example:
         console.log(`Code matched = ${decodedText}`, decodedResult);
+
+       
+        getStudentRecord(decodedText, asd);
+       
+        sound.play();
+        html5QrcodeScanner.pause().then(_ => {
+            // the UI should be cleared here    
+        }).catch(error => {
+            // Could not stop scanning for reasons specified in `error`.
+            // This conditions should ideally not happen.
+        });
+
+    
+
         }
 
-        let config = {
+        function onScanFailure(error) {
+        // handle scan failure, usually better to ignore and keep scanning
+             console.warn(`Barcode error = ${error}`);
+        }
+
+
+        var config = {
         fps: 10,
-        qrbox: {width: 500, height: 500},
+        qrbox: {width: 600, height: 600},
         rememberLastUsedCamera: true,
         // Only support camera scan type.
         supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
@@ -167,7 +323,94 @@
 
         let html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", config, /* verbose= */ false);
+
         html5QrcodeScanner.render(onScanSuccess);
+
+        function getStudentRecord(id, asd){
+          var status = id.substring(0,2); 
+          // var con = document.getElementById('program_id').value=content;
+          // console.log(con)
+          console.log(asd)
+            // if(status == 'in'){
+            // $.ajax({
+            //     method: "post",
+            //     dataType: "json",
+            //     url: "../includes/child_account.inc.php",
+            //     data: {
+            //     user_id: id.substring(2),
+            //     status: 'time_in',
+            //     timestamp: id
+            //     },
+            //     cache: false,
+            //     success: function(response){
+            //         $.each(response, function(index, data) {
+            //             if (data == 404) {
+            //                     $("#alertError").show()
+            //                     setTimeout(function() {
+            //                     $("#alertError").hide();
+            //                     }, 5000);
+            //             } else {
+            //                     $("#alertSuccess").show()
+            //                     setTimeout(function() {
+            //                     $("#alertSuccess").hide();
+            //                     }, 5000);
+            //                     console.log(data);
+            //                     $('#tblattendance').prepend('<tr><td>' + data.fname +' '+ data.lname + '</td>' + '<td>' + data.dept_name + '</td>' + '<td>' + data.state + '</td>' + '<td>' + data.record + '</td></tr>');
+            //             }
+            //         });
+            //     }
+            // })
+            // }
+            // else{
+            //   $.ajax({
+            //         method: "post",
+            //         dataType: "json",
+            //         url: "../includes/child_account.inc.php",
+            //         data: {
+            //         user_id: id.substring(2),
+            //         status: 'time_out',
+            //         timestamp: id
+            //         },
+            //         cache: false,
+            //         success: function(response){
+            //             $.each(response, function(index, data) {
+            //                 if (data == 404) {
+            //                         $("#alertError").show()
+            //                         setTimeout(function() {
+            //                         $("#alertError").hide();
+                                
+            //                         }, 5000);
+            //                 } else {
+            //                         $("#alertSuccess").show()
+            //                         setTimeout(function() {
+            //                         $("#alertSuccess").hide();
+            //                         }, 5000);
+            //                         console.log(data);
+            //                         $('#tblattendance').prepend('<tr><td>' + data.fname +' '+ data.lname + '</td>' + '<td>' + data.dept_name + '</td>' + '<td>' + data.state + '</td>' + '<td>' + data.record + '</td></tr>');
+            //                 }
+            //             });
+                       
+            //         }
+            //       })
+            // }
+            
+        }
+
+        function timeInterval() {
+            html5QrcodeScanner.resume();
+        }
+       
     </script>
   </body>
 </html>
+<?php
+ }
+ else{
+    header('location: ../login.php');
+ }
+}
+else{
+  header('location: ../login.php');
+}
+
+?>

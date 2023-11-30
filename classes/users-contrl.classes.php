@@ -103,6 +103,10 @@ class usersController extends userClass {
         }
         return $result;
     }
+
+    public function notificationCount($id){
+        return $this->countNotif($id);
+    }
  
 }
 

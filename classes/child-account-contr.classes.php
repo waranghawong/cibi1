@@ -78,7 +78,13 @@ class childAccountCntrl extends childAccount{
     //     }
 
        
-    // }
+    // }\\
+
+    public function childAttendance($user_id, $status, $timestamp){
+        var_dump($user_id);
+        var_dump($status);
+        return $this->insertChildAttendance($user_id, $status, $timestamp);
+    }
 }
 
 

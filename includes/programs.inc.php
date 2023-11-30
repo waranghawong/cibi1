@@ -4,6 +4,8 @@ date_default_timezone_set('Asia/Manila');
 include_once '../classes/db.classes.php';
 include_once '../classes/programs.classes.php';
 include_once '../classes/programs-cntrl.classes.php';
+include_once "../classes/logs.classes.php";
+include_once "../classes/logs-cntrl.classes.php";
 
 $programs = new programsCntrl();
 

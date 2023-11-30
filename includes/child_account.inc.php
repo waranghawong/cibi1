@@ -29,6 +29,31 @@
         $child_account->deleteChildById($_GET['delete_child'], $_GET['child_id']);
     }
 
+    if(isset($_POST['user_id'])){
+            $user_id = $_POST['user_id'];
+            $status = $_POST['status'];
+            $timestamp = $_POST['timestamp'];
+            $user  = strstr($user_id, '/', true);
+         
+            $date = date('m/d/Y');
+            $date1 = strtotime($date);
+        
+            $asd = substr($timestamp, strrpos($timestamp, '/') + 1);
+        
+            if($date1 != $asd){
+                echo json_encode(array('status'=>'404'));
+            
+            }
+            else{
+        
+                $child_account->childAttendance($user_id, $status, $timestamp);
+            }
+            
+ 
+    }
+
+    
+
 
 
 ?>

@@ -114,12 +114,161 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-
             
-            
-              <div class="row">
+              <div class="col-md-6 col-sm-12 ">
+              <div class="x_panel">
+               <div class="x_title">
+                    <h2>Tomorrow Events </h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <article class="media event">
+                      <a class="pull-left date bg-danger">
+                        <p class="month">April</p>
+                        <p class="day">23</p>
+                      </a>
+                      <div class="media-body">
+                        <a class="title" href="#">Item One Title</a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      </div>
+                    </article>
+                    <article class="media event">
+                      <a class="pull-left date bg-danger" >
+                        <p class="month">April</p>
+                        <p class="day">23</p>
+                      </a>
+                      <div class="media-body">
+                        <a class="title" href="#">Item Two Title</a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      </div>
+                    </article>
+                    <article class="media event">
+                      <a class="pull-left date bg-danger">
+                        <p class="month">April</p>
+                        <p class="day">23</p>
+                      </a>
+                      <div class="media-body">
+                        <a class="title" href="#">Item Two Title</a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      </div>
+                    </article>
+                    <article class="media event">
+                      <a class="pull-left date bg-danger">
+                        <p class="month">April</p>
+                        <p class="day">23</p>
+                      </a>
+                      <div class="media-body">
+                        <a class="title" href="#">Item Two Title</a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      </div>
+                    </article>
+                    <article class="media event">
+                      <a class="pull-left date bg-danger">
+                        <p class="month">April</p>
+                        <p class="day">23</p>
+                      </a>
+                      <div class="media-body">
+                        <a class="title" href="#">Item Three Title</a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+                </div>
 
+                <div class="col-md-6 col-sm-12 ">
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2>Upcoming Events</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <article class="media event">
+                      <a class="pull-left date bg-danger">
+                        <p class="month">April</p>
+                        <p class="day">23</p>
+                      </a>
+                      <div class="media-body">
+                        <a class="title" href="#">Item One Title</a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      </div>
+                    </article>
+                    <article class="media event">
+                      <a class="pull-left date bg-danger" >
+                        <p class="month">April</p>
+                        <p class="day">23</p>
+                      </a>
+                      <div class="media-body">
+                        <a class="title" href="#">Item Two Title</a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      </div>
+                    </article>
+                    <article class="media event">
+                      <a class="pull-left date bg-danger">
+                        <p class="month">April</p>
+                        <p class="day">23</p>
+                      </a>
+                      <div class="media-body">
+                        <a class="title" href="#">Item Two Title</a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      </div>
+                    </article>
+                    <article class="media event">
+                      <a class="pull-left date bg-danger">
+                        <p class="month">April</p>
+                        <p class="day">23</p>
+                      </a>
+                      <div class="media-body">
+                        <a class="title" href="#">Item Two Title</a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      </div>
+                    </article>
+                    <article class="media event">
+                      <a class="pull-left date bg-danger">
+                        <p class="month">April</p>
+                        <p class="day">23</p>
+                      </a>
+                      <div class="media-body">
+                        <a class="title" href="#">Item Three Title</a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      </div>
+                    </article>
+                  </div>
+                   </div>
+                </div>
+              <div class="col-sm-3"></div>
+              <div class="col-md-12 d-flex">
+              <div class="x_panel">
+                    <div class="x_title">
+                      <h2>Notification</h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+
+                      <div class="justify-content-center">
+                        <ul class="to_do">
+                          <li>
+                            <p>
+                               Schedule meeting with new client </p>
+                               <div class="byline">
+                              <span>13 hours ago</span> by <a>Jane Smith</a>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
               </div>
+
+
+
+              <div class="col-sm-3"></div>
             </div>
           </div>
         </div>

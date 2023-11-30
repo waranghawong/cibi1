@@ -1,8 +1,11 @@
 <?php
   include "../classes/userContr.classes.php";
   include "../includes/programs.inc.php";
+  include "../classes/users.classes.php";
+  include "../classes/users-contrl.classes.php";
 
   $userdata = new UserCntr();
+  $users = new usersController();
   $user = $userdata->get_userdata();
 
 if(isset($user)){
@@ -14,7 +17,7 @@ if(isset($user)){
 
 
  $programs_for_user = $programs->getProgramsForUser($user['user_id']);
-
+ $notification_count = $users->notificationCount($user['user_id']);
   if(isset($role) == 'child-account'){
 
 
