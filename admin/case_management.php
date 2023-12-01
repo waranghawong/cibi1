@@ -1,3 +1,27 @@
+<?php
+  include "../classes/userContr.classes.php";
+  include "../includes/programs.inc.php";
+  include "../classes/users.classes.php";
+  include "../classes/users-contrl.classes.php";
+
+  $userdata = new UserCntr();
+  $users = new usersController();
+  $user = $userdata->get_userdata();
+
+if(isset($user)){
+      
+  $name = ucfirst(ucfirst($user['full_name']));
+  $username = $user['username'];
+  $role = $user['role'];
+
+
+  $prgrm = $programs->getProgramDetails($user['user_id']);
+ $programs_for_user = $programs->getProgramsForUser($user['user_id']);
+ $notification_count = $users->notificationCount($user['user_id']);
+ if(isset($role) == 'Admin'){
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -40,6 +64,9 @@
       .main_container{
         background-color: #8c4c97;
       }
+      .nav-item {
+     width:40%;
+   }
     </style>
   </head>
 
@@ -61,7 +88,7 @@
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <h2><?= $name; ?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -92,7 +119,7 @@
               <ul class=" navbar-right">
                 <li class="nav-item dropdown open" style="padding-left: 15px;">
                   <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
+                    <img src="images/img.jpg" alt=""><?= $name; ?>
                   </a>
                   <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item"  href="javascript:;"> Profile</a>
@@ -114,13 +141,50 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
+                   <div class="alert alert-danger error_alert" role="alert">
+                         <div class="error_div">
 
-            
-            
-              <div class="row">
+                         </div>
+                    </div>
+                    <div class="alert alert-success success_alert" role="alert">
+                        <div class="success_div">
+                                            
+                         </div>
+                    </div>
+             <div class="row col-md-3">
 
-              </div>
+             <table class="table text-center">
+                <thead>
+                  <tr>
+                    <th scope="col">Program Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <?php 
+                      foreach($programs_for_user as $pgrms){
+                        ?>
+                        <tr>
+                          <td>
+                            <a href="#" onclick="getprogramData(<?= $pgrms['id'] ?>)"><?= $pgrms['program_name']  ?></a></td>
+                          </tr>
+                          <?php
+                      }
+                 
+                 
+               ?>
+                </tbody>
+              </table>
+
             </div>
+
+
+             <div class="row col-md-9" id="program-content">
+                    
+   
+             
+            </div>
+          </div>
           </div>
         </div>
         <!-- /page content -->
@@ -151,6 +215,41 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
-	
+    <script>
+        $('.error_alert').hide();
+        $('.success_alert').hide();
+      function getprogramData(id){
+          $.ajax({
+            type: "GET",
+            url: "../includes/case_management.php",
+            dataType: 'html',
+            data: {id: id},
+
+            success: function(html){
+                    $("#program-content").html(html);
+            },
+
+            error: function(){
+            },
+
+            complete: function(){
+            }
+        });
+      }
+       
+    </script>
+   
+   
   </body>
 </html>
+<?php
+ }
+ else{
+    header('location: ../login.php');
+ }
+}
+else{
+  header('location: ../login.php');
+}
+
+?>

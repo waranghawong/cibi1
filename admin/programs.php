@@ -12,7 +12,7 @@ if(isset($user)){
   $role = $user['role'];
   if(isset($role) == 'Admin'){
   
-
+    $programs_for_user = $programs->getProgramsForUser($user['user_id']);
 
 ?>
 <!DOCTYPE html>
