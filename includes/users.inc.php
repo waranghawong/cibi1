@@ -47,8 +47,10 @@ if(isset($_POST['btn_edit_submit'])){
         }
     }
 
+}
 
-   
+if(isset($_GET['program_id'])){
+    $users->getUserPerProgram($_GET['program_id']);
 }
 
 

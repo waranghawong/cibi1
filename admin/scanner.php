@@ -9,7 +9,7 @@
   $date = new DateTime();
   $userdata = new UserCntr();
   $user = $userdata->get_userdata();
-  $new_date =  $date->format('Y-m-d');
+  $new_date =  $date->format('2023-12-02');
   $sd = $events->getEvents($new_date);
 
 if(isset($user)){
@@ -160,8 +160,8 @@ if(isset($user)){
                                 }
                                 else{
                                 foreach($sd as $sm){ ?>
-                                    <tr id="data_<?= $sm['id'];?>">
-                                      <td><a href="#" onclick="openModal(<?= $sm['id'];?>)"> <?= $sm['program_name']; ?>   </a></td>
+                                    <tr id="data_<?= $sm['program_id'];?>">
+                                      <td><a href="#" onclick="openModal(<?= $sm['program_id'];?>)"> <?= $sm['program_name']; ?>   </a></td>
                                       <td> <?= $sm['program_description']; ?></td>
                                       <td> <?= $sm['event_time'];  ?></td>
                                     
@@ -213,46 +213,40 @@ if(isset($user)){
                               
                                     <div class="container">
                                         <div class="row">
-                                            <div class="col-md-12">
-                                            <div id="reader" width="60px"></div>
+                                            <div class="col-md-3"></div><div class="col-md-6"><div class="col-md-3"></div>
+                                            <div id="reader" width="50px"></div>
                                             <div class="alert alert-success alert-dismissible" id="alertSuccess">
                                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                                 <i class="icon fas fa-check"></i> Attendance Added!
                                             </div>
                                             <div class="alert alert-danger alert-dismissible" id="alertError">
                                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                                <i class="icon fas fa-ban"></i> Error!
+                                                <i class="icon fas fa-ban"></i> Attendance already added
+                                            </div>
+                                            <div class="alert alert-danger alert-dismissible" id="notEnrolled">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <i class="icon fa fa-ban"></i> You are not enrolled to this program
+                                            </div>
+                                            <div class="alert alert-danger alert-dismissible" id="invalidQR">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <i class="icon fa fa-ban"></i> Invalid QR Code
                                             </div>
                                             </div>
                                             <div class="col-md-12">
-                                                <input type="text" name="program_id" id="program_id" readonly="" placeholder="scan qr code" class="form-control">
-                                        <table id="tblattendance" class="table table-bordered table-hover">
-                                            <thead>
-                                            <tr>
-                                            <th>Name</th>
-                                            <th>Status</th>
-                                            <th>Time</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                    if($getAttendance == false){
-
-                                                    }
-                                                    else{
-                                                        foreach($getAttendance as $attendance){ ?>
-                                                        <tr id="attendanceID">
-                                                            <td><?= $attendance['fname'].' '.$attendance['lname']; ?></td>
-                                                            <td><?= $attendance['state']; ?></td>
-                                                            <td><?= $attendance['record']; ?></td>
-                                                        </tr>
-                                                    <?php 
-                                                    }
-                                                }
-                                                ?>
-                                        
-                                            </tbody>
-                                        </table>
+                                                <input type="hidden" name="program_id" id="program_id" readonly="" placeholder="scan qr code" class="form-control">
+                                             <table id="tblattendance" class="table table-bordered table-hover">
+                                                <thead>
+                                                <tr>
+                                                <th>Name</th>
+                                                <th>Status</th>
+                                                <th>Time</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                  
+                                            
+                                                </tbody>
+                                               </table>
                                             </div>
                                         </div>
                                     </div>
@@ -280,20 +274,41 @@ if(isset($user)){
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
 	<script>
-    var asd
+    var userID
+    
       $("#alertError").hide();
+      $("#invalidQR").hide();
       $("#alertSuccess").hide();
+      $("#notEnrolled").hide();
       function openModal(id){
-       asd = $('#program_id').val(id)
+        var html;
+       $.ajax({
+          method: "get",
+          dataType: "json",
+          url: "../includes/users.inc.php?program_id=" + id,
+          success: function (response){
+          $.each(response, function(index, data) {
+                for(i = 0; i < data.length; i++){
+                  html += '<tr><td color="red">'+data[i].first_name+' '+data[i].last_name+'</td>';
+                  html += '<td>'+data[i].attendance_status+'</td>';
+                  html += '<td>'+data[i].record+'</td>';
+                }
+                  
+            });
+            $('#tblattendance tbody').html(html)
+          }
+       })
+       $('#program_id').val(id)
+       userID = id
         $('#portfolioModal1').modal()
       }
       function onScanSuccess(decodedText, decodedResult) {
         var sound = new Audio("../includes/barcode.wav");
         // handle the scanned code as you like, for example:
-        console.log(`Code matched = ${decodedText}`, decodedResult);
+        // console.log(`Code matched = ${decodedText}`, decodedResult);
 
        
-        getStudentRecord(decodedText, asd);
+        getStudentRecord(decodedText, userID);
        
         sound.play();
         html5QrcodeScanner.pause().then(_ => {
@@ -315,7 +330,7 @@ if(isset($user)){
 
         var config = {
         fps: 10,
-        qrbox: {width: 600, height: 600},
+        qrbox: {width: 300, height: 300},
         rememberLastUsedCamera: true,
         // Only support camera scan type.
         supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
@@ -330,69 +345,105 @@ if(isset($user)){
           var status = id.substring(0,2); 
           // var con = document.getElementById('program_id').value=content;
           // console.log(con)
-          console.log(asd)
-            // if(status == 'in'){
-            // $.ajax({
-            //     method: "post",
-            //     dataType: "json",
-            //     url: "../includes/child_account.inc.php",
-            //     data: {
-            //     user_id: id.substring(2),
-            //     status: 'time_in',
-            //     timestamp: id
-            //     },
-            //     cache: false,
-            //     success: function(response){
-            //         $.each(response, function(index, data) {
-            //             if (data == 404) {
-            //                     $("#alertError").show()
-            //                     setTimeout(function() {
-            //                     $("#alertError").hide();
-            //                     }, 5000);
-            //             } else {
-            //                     $("#alertSuccess").show()
-            //                     setTimeout(function() {
-            //                     $("#alertSuccess").hide();
-            //                     }, 5000);
-            //                     console.log(data);
-            //                     $('#tblattendance').prepend('<tr><td>' + data.fname +' '+ data.lname + '</td>' + '<td>' + data.dept_name + '</td>' + '<td>' + data.state + '</td>' + '<td>' + data.record + '</td></tr>');
-            //             }
-            //         });
-            //     }
-            // })
-            // }
-            // else{
-            //   $.ajax({
-            //         method: "post",
-            //         dataType: "json",
-            //         url: "../includes/child_account.inc.php",
-            //         data: {
-            //         user_id: id.substring(2),
-            //         status: 'time_out',
-            //         timestamp: id
-            //         },
-            //         cache: false,
-            //         success: function(response){
-            //             $.each(response, function(index, data) {
-            //                 if (data == 404) {
-            //                         $("#alertError").show()
-            //                         setTimeout(function() {
-            //                         $("#alertError").hide();
-                                
-            //                         }, 5000);
-            //                 } else {
-            //                         $("#alertSuccess").show()
-            //                         setTimeout(function() {
-            //                         $("#alertSuccess").hide();
-            //                         }, 5000);
-            //                         console.log(data);
-            //                         $('#tblattendance').prepend('<tr><td>' + data.fname +' '+ data.lname + '</td>' + '<td>' + data.dept_name + '</td>' + '<td>' + data.state + '</td>' + '<td>' + data.record + '</td></tr>');
-            //                 }
-            //             });
-                       
-            //         }
-            //       })
-            // }
+            if(status == 'in'){
+            $.ajax({
+                method: "post",
+                dataType: "json",
+                url: "../includes/child_account.inc.php",
+                data: {
+                user_id: id.substring(2),
+                status: 'time_in',
+                timestamp: id,
+                program_id: asd
+                },
+                cache: false,
+                success: function(response){
+                  
+                        if (response.status == '404') {
+                                $("#invalidQR").show()
+                                setTimeout(function() {
+                                $("#invalidQR").hide();
+                                }, 5000);
+                              
+                        }
+                        else if (response.status == 401) {
+                                $("#notEnrolled").show()
+                                setTimeout(function() {
+                                $("#notEnrolled").hide();
+                                }, 5000);
+                              
+                        } 
+                        else if (response.status == 400) {
+                                $("#alertError").show()
+                                setTimeout(function() {
+                                $("#alertError").hide();
+                                }, 5000);
+                             
+                        } 
+                        else {
+                                $("#alertSuccess").show()
+                                setTimeout(function() {
+                                $("#alertSuccess").hide();
+                                }, 5000);
+                          
+                              
+                                $('#tblattendance').prepend('<tr><td>' + response.first_name +' '+ response.last_name + '</td>' + '<td>' + response.status + '</td>' + '<td>' + response.record + '</td></tr>');
+                              
+                        }
+                        timeInterval();
+                   
+                }
+            })
+            }
+            else{
+              $.ajax({
+                    method: "post",
+                    dataType: "json",
+                    url: "../includes/child_account.inc.php",
+                    data: {
+                    user_id: id.substring(2),
+                    status: 'time_out',
+                    timestamp: id,
+                    program_id: asd
+                    },
+                    cache: false,
+                    success: function(response){
+                      
+                        // $.each(response, function(index, data) {
+                          
+                    
+                          if (response.status == 404) {
+                                $("#invalidQR").show()
+                                setTimeout(function() {
+                                $("#invalidQR").hide();
+                                }, 5000);
+                        }
+                          else if(response.status == 401) {
+                                $("#notEnrolled").show()
+                                setTimeout(function() {
+                                $("#notEnrolled").hide();
+                                }, 5000);
+                        } 
+                        else if (response.status == 400) {
+                                $("#alertError").show()
+                                setTimeout(function() {
+                                $("#alertError").hide();
+                                }, 5000);
+                        } 
+                       else {
+                           
+                                $("#alertSuccess").show()
+                                setTimeout(function() {
+                                $("#alertSuccess").hide();
+                                }, 5000);
+                                $('#tblattendance').prepend('<tr><td>' + response.first_name +' '+ response.last_name + '</td>' + '<td>' + response.status + '</td>' + '<td>' + response.record + '</td></tr>');
+                         
+                        }
+                      
+                        timeInterval();
+                    }
+                  })
+            }
             
         }
 

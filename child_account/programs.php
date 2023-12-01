@@ -15,8 +15,10 @@ if(isset($user)){
   $role = $user['role'];
 
 
-
+  $prgrm = $programs->getProgramDetails($user['user_id']);
  $programs_for_user = $programs->getProgramsForUser($user['user_id']);
+ $child_id = $programs->getChildId($user['user_id'])['child_id'];
+ $user_gender = $programs->getUserGender( $child_id);
  $notification_count = $users->notificationCount($user['user_id']);
   if(isset($role) == 'child-account'){
 
@@ -153,15 +155,37 @@ if(isset($user)){
              <table class="table text-center">
                 <thead>
                   <tr>
-                    <th scope="col">Program Name</th>
+                    <th scope="col">Program Name <?= $user['user_id']; ?></th>
                   </tr>
                 </thead>
                 <tbody>
+
                   <?php 
                       foreach($programs_for_user as $pgrms){
                         ?>
                         <tr>
-                          <td><a href="#" onclick="getprogramData(<?= $pgrms['id'] ?>)"><?= $pgrms['program_name']; ?></a></td>
+                          <td>
+                          <?php
+                              $asd = explode(',', $pgrms['tags']);
+                           
+                          
+                              foreach($asd as $sd){
+                                if($sd == 'male '){
+                                  if($user_gender['gender'] == 'male'){
+                                        echo $pgrms['program_name'];
+                                  }
+                                  else{
+                                    echo 'pambabae';
+                                  }
+                                }
+                            
+                              
+                              }
+                            
+
+                            
+                              ?>
+                            <a href="#" onclick="getprogramData(<?= $pgrms['id'] ?>)"><?= $pgrms['program_name']  ?></a></td>
                           </tr>
                           <?php
                       }

@@ -329,6 +329,19 @@ class programs extends DB{
         }
     }
 
+    protected function userGender($id){
+        $connection = $this->dbOpen();
+        $stmt = $connection->prepare("SELECT gender FROM child_info WHERE id = ?");
+      
+        $stmt->execute([$id]);
+        if($stmt->rowCount() > 0 ){
+           return $stmt->fetch();
+        }
+        else{
+            return false;
+        }
+    }
+
 
 
 

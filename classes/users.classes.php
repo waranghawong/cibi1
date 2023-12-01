@@ -132,6 +132,22 @@ class userClass extends DB{
         } 
     }
 
+    protected function getUsers($id){
+        $connection = $this->dbOpen();
+        $stmt = $connection->prepare("SELECT child_account.first_name, child_account.last_name, child_account.address, child_attendance.record, child_attendance.attendance_status FROM child_attendance LEFT JOIN child_account ON child_attendance.child_id = child_account.UserID WHERE child_attendance.program_id = ? AND date_format(child_attendance.record, '%Y-%m-%d') = CURDATE();");
+        $stmt->execute([$id]);
+
+        $data = $stmt->fetchall();
+        $total = $stmt->rowCount();
+
+        if($total > 0){
+            return $data;
+        }
+        else{
+            return false;
+        } 
+    }
+
 
 
 }

@@ -71,6 +71,10 @@ class programsCntrl extends programs{
         return $this->childSchoolData($id);
     }
 
+    public function getUserGender($id){
+        return $this->userGender($id);
+    }
+
     //Check if the child is malnourished
     public function isChildMalnourish($id){
         return $this->checkChildHeightandWeight($id);
@@ -115,6 +119,7 @@ class programsCntrl extends programs{
    public function getChildId($id){
     return $this->childID($id);
    }
+
     
 
     

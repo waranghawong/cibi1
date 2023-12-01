@@ -107,6 +107,10 @@ class usersController extends userClass {
     public function notificationCount($id){
         return $this->countNotif($id);
     }
+
+    public function getUserPerProgram($id){
+        echo json_encode([$this->getUsers($id)]);
+    }
  
 }
 

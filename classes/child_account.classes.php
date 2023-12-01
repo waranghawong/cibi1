@@ -156,25 +156,64 @@ class childAccount extends DB{
         }
     }
 
-    protected function insertChildAttendance($user_id, $status, $timestamp){
-        // $datetimetoday = date("Y-m-d H:i:s");
-        // $connection = $this->dbOpen();
-        // $stmt = $connection->prepare('INSERT INTO child_account () VALUES ()');
+    protected function insertChildAttendance($user_id, $status, $timestamp, $program_id){
+        $datetimetoday = date("Y-m-d H:i:s");
+        $connection = $this->dbOpen();
+        $stmt = $connection->prepare('INSERT INTO child_attendance (child_id,program_id,attendance_status,created_at) VALUES (?,?,?,?)');
 
-        // if(!$stmt->execute()){
-        //     $stmt = null;
-        //     header("location: ../admin/child-accounts.php?errors=stmtfailed");
-        //     exit();
-        // }
-        // else{
-        //     $stmt = $connection->prepare("UPDATE child_info SET has_account = ? WHERE id = ?");
-        //     if(!$stmt->execute(['1', $child_id])){
-        //         $stmt = null;
-        //         header("location: index.php?errors=stmtfailed");
-        //         exit();
-        //     }
-        //       header("location: ../admin/child-accounts.php");
-        // }
+        if(!$stmt->execute([$user_id, $program_id, $status, $datetimetoday])){
+            $stmt = null;
+            header("location: ../admin/child-accounts.php?errors=stmtfailed");
+            exit();
+            
+        }
+        echo json_encode(["first_name" => $this->childName($user_id)['first_name'], "last_name" => $this->childName($user_id)['last_name'], "status" => $status, "record" => $datetimetoday]);
+    }
+
+    protected function checkAttendanceExist($user_id, $program_id,$status){
+        $connection = $this->dbOpen();
+        $stmt = $connection->prepare("SELECT * FROM child_attendance WHERE child_id = ? AND program_id = ? AND attendance_status = ? AND record >= CURDATE();");
+        $stmt->execute([$user_id, $program_id, $status]);
+        $data = $stmt->fetchall();
+        $result;
+        if($stmt->rowCount() > 0 ){
+           $result = true;
+        }
+        else{
+            $result = false;
+        }
+        return $result;
+    }
+
+    protected function ifEnrolled($user_id, $program_id){
+        $result;
+        $connection = $this->dbOpen();
+        $stmt = $connection->prepare("SELECT * FROM child_program WHERE child_id = ? AND program_id = ?");
+        $stmt->execute([$user_id, $program_id]);
+       
+
+        if($stmt->rowCount() > 0 ){
+           $result = true;
+        }
+        else{
+            $result = false;
+        }
+        return $result;
+      
+    }
+
+    protected function childName($user_id){
+        $connection = $this->dbOpen();
+        $stmt = $connection->prepare("SELECT first_name, last_name FROM child_account WHERE UserID = ?");
+        $stmt->execute([$user_id]);
+        $data = $stmt->fetch();
+
+        if($stmt->rowCount() > 0 ){
+           return $data;
+        }
+        else{
+            return false;
+        }
     }
 }
 

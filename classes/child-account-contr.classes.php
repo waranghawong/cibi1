@@ -80,10 +80,46 @@ class childAccountCntrl extends childAccount{
        
     // }\\
 
-    public function childAttendance($user_id, $status, $timestamp){
-        var_dump($user_id);
-        var_dump($status);
-        return $this->insertChildAttendance($user_id, $status, $timestamp);
+    public function childAttendance($user_id, $status, $timestamp, $program_id){
+
+        if($this->checkIfChildIsEnrolled($user_id, $program_id) == true){
+
+            if($this->checkifAttendanceExist($user_id, $program_id,$status) == false){
+                return $this->insertChildAttendance($user_id, $status, $timestamp, $program_id);
+              
+            }
+            else{
+                echo json_encode(["status" => "400"]);
+                exit();
+            }
+         
+        }
+       else{
+            echo json_encode(["status" => "401"]);
+       }
+   
+      
+     
+    
+       
+    }
+
+    public function checkifAttendanceExist($user_id, $program_id,$status){
+        if($this->checkAttendanceExist($user_id, $program_id,$status) == true){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function checkIfChildIsEnrolled($user_id, $program_id){
+        if($this->ifEnrolled($user_id, $program_id) == true){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
 

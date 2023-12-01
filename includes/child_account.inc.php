@@ -33,7 +33,9 @@
             $user_id = $_POST['user_id'];
             $status = $_POST['status'];
             $timestamp = $_POST['timestamp'];
+            $program_id = $_POST['program_id'];
             $user  = strstr($user_id, '/', true);
+
          
             $date = date('m/d/Y');
             $date1 = strtotime($date);
@@ -46,7 +48,7 @@
             }
             else{
         
-                $child_account->childAttendance($user_id, $status, $timestamp);
+                $child_account->childAttendance($user_id, $status, $timestamp, $program_id);
             }
             
  
